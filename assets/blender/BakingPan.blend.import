@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://bpvt1h1d41gvm"
-path="res://.godot/imported/tomato.blend-e0fe3a89a8abbd5d5fab26744b135d32.scn"
+uid="uid://f2ahbs7p1hjv"
+path="res://.godot/imported/BakingPan.blend-b701016885c7571a4f2ddbda4670e303.scn"
 
 [deps]
 
-source_file="res://assets/blender/tomato.blend"
-dest_files=["res://.godot/imported/tomato.blend-e0fe3a89a8abbd5d5fab26744b135d32.scn"]
+source_file="res://assets/blender/BakingPan.blend"
+dest_files=["res://.godot/imported/BakingPan.blend-b701016885c7571a4f2ddbda4670e303.scn"]
 
 [params]
 

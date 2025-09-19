@@ -1,8 +1,9 @@
-[gd_scene load_steps=15 format=3 uid="uid://cthbfo51ysucs"]
+[gd_scene load_steps=16 format=3 uid="uid://cthbfo51ysucs"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_a202f"]
 [ext_resource type="Script" path="res://selection_box.gd" id="2_noarx"]
-[ext_resource type="PackedScene" uid="uid://d1o5dm3ngwa77" path="res://assets/blender/tomato.blend" id="3_a0tk4"]
+[ext_resource type="PackedScene" uid="uid://bpvt1h1d41gvm" path="res://assets/blender/tomato.blend" id="3_a0tk4"]
+[ext_resource type="PackedScene" uid="uid://f2ahbs7p1hjv" path="res://assets/blender/BakingPan.blend" id="3_r3fl7"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4xowi"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -94,5 +95,8 @@ mesh = SubResource("BoxMesh_noarx")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0018615723, 0.1027832, 0)
 shape = SubResource("BoxShape3D_a0tk4")
 
+[node name="BakingPan" parent="." instance=ExtResource("3_r3fl7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8774233, 0.25443935, 5.2604814)
+
 [node name="tomato" parent="." instance=ExtResource("3_a0tk4")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9304358, 0.109866045, 7.6520147)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.3381805, 0.10986557, 2.4870305)
