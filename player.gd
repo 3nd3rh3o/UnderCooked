@@ -1,35 +1,55 @@
 extends CharacterBody3D
+@export var nav_agent: NavigationAgent3D
+@export var target_node_path: NodePath  
+@export var grabPoint: Node3D  
+@export var ingredient: Ingredient  
+@export var cuttingtable: Node3D
+const SPEED = 3
+var objectInHand:Node3D
 
-const SPEED = 5.0
-const FLOOR_NORMAL = Vector3.UP
-const JUMP_VELOCITY = 10.0
+func find_nearest_ingredient() -> Ingredient:
+	var nearest: Ingredient = null
+	var shortest_distance := INF
 
-var gravity = -24.8
-var direction = Vector3.ZERO
-var lookdirection = Vector3.ZERO
+	for node in get_tree().get_nodes_in_group("rawIngredients"):
+		if node is Ingredient:
+			var dist := global_position.distance_to(node.global_position)
+			if dist < shortest_distance:
+				shortest_distance = dist
+				nearest = node
 
+	return nearest
+
+func cutIngredient():
+	if(not objectInHand):
+		if(not ingredient):
+			ingredient = find_nearest_ingredient()
+		if(ingredient):
+			nav_agent.set_target_position(ingredient.position)
+			if(nav_agent.is_navigation_finished()):
+				objectInHand = ingredient
+				objectInHand.pickedUp(grabPoint)
+	else:
+		nav_agent.set_target_position(cuttingtable.position)
+		if(nav_agent.is_navigation_finished()):
+			objectInHand.change_mesh_color()
+			objectInHand.dropped()
+			objectInHand = null
+			ingredient = null
 
 func _physics_process(delta):
-	if not is_on_floor():
-		velocity.y += gravity * delta
-	else:
-		velocity.y = 0
+	if nav_agent.is_navigation_finished():
+		return
 
-	var input_dir = Input.get_vector("move_left", "move_right", "move_up", "move_down")
-	
-	direction = Vector3.ZERO;
-	if input_dir != Vector2.ZERO:
-		var forward = Vector3(0, 0, 1).normalized()   
-		var right = Vector3(1, 0, 0).normalized()    
-		direction = (right * input_dir.x + forward * input_dir.y).normalized()	 
-		
-		var target_angle = atan2(direction.x, direction.z)
-		var current_angle = rotation.y
-		var new_angle = lerp_angle(current_angle, target_angle, delta *10 )
+	var next_path_position = nav_agent.get_next_path_position()
 
-		rotation.y = new_angle
-
-	velocity.x = direction.x * SPEED
-	velocity.z = direction.z * SPEED
-
+	var direction = (next_path_position - global_position).normalized()
+	var target_angle = atan2(direction.x, direction.z)
+	var current_angle = rotation.y
+	var new_angle = lerp_angle(current_angle, target_angle, delta *10 )
+	rotation.y = new_angle
+	velocity = direction * SPEED
 	move_and_slide()
+
+func _process(delta):
+	cutIngredient()

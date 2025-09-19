@@ -1,0 +1,29 @@
+[gd_scene load_steps=6 format=3 uid="uid://dkyhgvqc3qgun"]
+
+[ext_resource type="Script" uid="uid://cqxbq00n0ntk6" path="res://ingredient.gd" id="1_11e83"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_noarx"]
+rough = true
+absorbent = true
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_noarx"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_11e83"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_noarx"]
+material = SubResource("StandardMaterial3D_11e83")
+
+[node name="tomato" type="RigidBody3D" node_paths=PackedStringArray("mesh")]
+collision_layer = 4
+collision_mask = 7
+physics_material_override = SubResource("PhysicsMaterial_noarx")
+script = ExtResource("1_11e83")
+mesh = NodePath("MeshInstance3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0018615723, 0.1027832, 0)
+shape = SubResource("BoxShape3D_noarx")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_noarx")
+skeleton = NodePath("../..")
