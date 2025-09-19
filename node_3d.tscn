@@ -1,9 +1,11 @@
-[gd_scene load_steps=16 format=3 uid="uid://cthbfo51ysucs"]
+[gd_scene load_steps=18 format=3 uid="uid://cthbfo51ysucs"]
 
-[ext_resource type="Script" path="res://player.gd" id="1_a202f"]
-[ext_resource type="Script" path="res://selection_box.gd" id="2_noarx"]
+[ext_resource type="Script" uid="uid://dtnxd4krtryr3" path="res://player.gd" id="1_a202f"]
+[ext_resource type="Script" uid="uid://plsmk6ft5bx1" path="res://GameManager.gd" id="1_jka67"]
+[ext_resource type="Script" uid="uid://njj587ql6tbs" path="res://selection_box.gd" id="2_noarx"]
 [ext_resource type="PackedScene" uid="uid://bpvt1h1d41gvm" path="res://assets/blender/tomato.blend" id="3_a0tk4"]
 [ext_resource type="PackedScene" uid="uid://f2ahbs7p1hjv" path="res://assets/blender/BakingPan.blend" id="3_r3fl7"]
+[ext_resource type="Script" uid="uid://dmcnq8pig42xa" path="res://scripts/tomatoGenerator.gd" id="5_i5arm"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4xowi"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -39,6 +41,7 @@ size = Vector3(12.205, 1.455, 1)
 size = Vector3(12.212952, 1.2055664, 1)
 
 [node name="Node3D" type="Node3D"]
+script = ExtResource("1_jka67")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_noarx")
@@ -97,6 +100,12 @@ shape = SubResource("BoxShape3D_a0tk4")
 
 [node name="BakingPan" parent="." instance=ExtResource("3_r3fl7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8774233, 0.25443935, 5.2604814)
+visible = false
 
-[node name="tomato" parent="." instance=ExtResource("3_a0tk4")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.3381805, 0.10986557, 2.4870305)
+[node name="tomatoGenerator" parent="." instance=ExtResource("3_r3fl7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8774233, 0.25443935, 5.2604814)
+visible = false
+script = ExtResource("5_i5arm")
+
+[node name="tomato" parent="tomatoGenerator" instance=ExtResource("3_a0tk4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.46075726, -0.14457378, -2.7734509)
