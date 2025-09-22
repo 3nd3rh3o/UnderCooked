@@ -1,7 +1,9 @@
-[gd_scene load_steps=15 format=3 uid="uid://de5eyiad3ai7j"]
+[gd_scene load_steps=17 format=3 uid="uid://de5eyiad3ai7j"]
 
 [ext_resource type="Script" uid="uid://dtnxd4krtryr3" path="res://player.gd" id="1_a202f"]
+[ext_resource type="Script" uid="uid://dur60hwhqrq1l" path="res://scripts/gameManager.gd" id="1_r3fl7"]
 [ext_resource type="PackedScene" uid="uid://dkyhgvqc3qgun" path="res://ingredient.tscn" id="2_a0tk4"]
+[ext_resource type="Script" uid="uid://b2o1lof1pnjrj" path="res://scripts/control_test.gd" id="3_a0tk4"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4xowi"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -42,6 +44,7 @@ size = Vector3(12.212952, 1.2055664, 1)
 [sub_resource type="BoxMesh" id="BoxMesh_a0tk4"]
 
 [node name="Node3D" type="Node3D"]
+script = ExtResource("1_r3fl7")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_noarx")
@@ -128,3 +131,28 @@ shape = SubResource("BoxShape3D_a0tk4")
 [node name="cuttingtable" type="MeshInstance3D" parent="Environnement/NavigationRegion3D/Interactible"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.3653636, 0.4291575, 5.654046)
 mesh = SubResource("BoxMesh_a0tk4")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("3_a0tk4")
+
+[node name="Label" type="Label" parent="Control"]
+layout_mode = 0
+offset_left = 69.0
+offset_top = 40.0
+offset_right = 109.0
+offset_bottom = 63.0
+text = "0"
+
+[node name="Button" type="Button" parent="Control"]
+layout_mode = 0
+offset_left = 67.0
+offset_top = 5.0
+offset_right = 159.0
+offset_bottom = 36.0
+text = "Clique-moi"
+
+[connection signal="pressed" from="Control/Button" to="Control" method="_on_button_pressed"]
