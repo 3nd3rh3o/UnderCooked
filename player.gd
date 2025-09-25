@@ -4,7 +4,7 @@ extends CharacterBody3D
 @export var grabPoint: Node3D  
 @export var ingredient: Ingredient  
 @export var cuttingtable: Node3D
-const SPEED = 3
+@export var SPEED: int = 3
 var objectInHand:Node3D
 
 func find_nearest_ingredient() -> Ingredient:
