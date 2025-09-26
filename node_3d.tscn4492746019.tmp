@@ -140,5 +140,23 @@ offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("3_a0tk4")
 
+[node name="Label" type="Label" parent="Control"]
+layout_mode = 0
+offset_left = 69.0
+offset_top = 40.0
+offset_right = 109.0
+offset_bottom = 63.0
+text = "0"
+
+[node name="Button" type="Button" parent="Control"]
+layout_mode = 0
+offset_left = 67.0
+offset_top = 5.0
+offset_right = 159.0
+offset_bottom = 36.0
+text = "Clique-moi"
+
 [node name="Order" parent="Control" instance=ExtResource("5_jka67")]
 layout_mode = 1
+
+[connection signal="pressed" from="Control/Button" to="Control" method="_on_button_pressed"]
