@@ -5,6 +5,7 @@ extends CharacterBody3D
 @export var ingredient: Ingredient  
 @export var cuttingtable: Node3D
 @export var SPEED: int = 3
+@export var CARRY_SPEED: int = 3
 var objectInHand:Node3D
 
 func find_nearest_ingredient() -> Ingredient:
@@ -48,7 +49,12 @@ func _physics_process(delta):
 	var current_angle = rotation.y
 	var new_angle = lerp_angle(current_angle, target_angle, delta *10 )
 	rotation.y = new_angle
-	velocity = direction * SPEED
+	var current_speed
+	if objectInHand:
+		current_speed = CARRY_SPEED
+	else:
+		current_speed = SPEED
+	velocity = direction * current_speed
 	move_and_slide()
 
 func _process(delta):
