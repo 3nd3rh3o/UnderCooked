@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="Recipe" load_steps=2 format=3 uid="uid://c6wxaevlcm4gn"]
+
+[ext_resource type="Script" uid="uid://b2s0060leuoh8" path="res://scripts/recipe.gd" id="1_6vnnt"]
+
+[resource]
+script = ExtResource("1_6vnnt")
+name = "tomato"
+metadata/_custom_type_script = "uid://b2s0060leuoh8"

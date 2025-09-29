@@ -1,25 +1,32 @@
 extends Node3D
 
-# TODO: Need to create a scene (I think) for a 2D order, so we can put inside its config global variables
-# This way, Control can duplicate the orders, and the gameManager can keep track of remaining time of each one
 # TODO: Change stands into classes so its easier to know if it is aviable and which ingredient can go inside
-var recipes_to_do: Array = []
+# TODO: multiple recipes/ingredients can be picked up at once when the player holds a plate. Create that plate
+var active_orders: Array = []
+var recipes_aviable: Array[Recipe] = []
 var totalPoints = 0
 var multiplier = 1
 var time = Config.MAX_TIME
 
-signal recipe_list_changed(new_list)
+signal addedOrder(order)
 
-func add_value_in_list(value: int):
-	# Yes for now I will only do int because y not
-	recipes_to_do.append(value)
-	emit_signal("recipe_list_changed", recipes_to_do)
+func get_composite_recipes() -> Array[Recipe]:
+	return recipes_aviable.filter(func(r): return not r.recipeNeeded.is_empty())
+
+func add_random_order():
+	var possible_orders = get_composite_recipes()
+	if possible_orders.is_empty():
+		return
+	var order = possible_orders.pick_random()
+	active_orders.append(order)
+	emit_signal("addedOrder", order)
 
 func _ready() -> void:
-	# Getting botty the bot ready
 	var bot = $agent
+	recipes_aviable = load_all_recipes("res://data/recipe")
 	bot.SPEED = Config.BOT_SPEED # Overrides the speed value set in player.gd
 	bot.CARRY_SPEED = Config.BOT_SPEED_ON_CARRY
+	add_random_order()
 
 func orderComplete(firstOrder: bool):
 	# ATTENTION: When the order classes are created, we need to have the command completed as secondary parameter
@@ -30,3 +37,17 @@ func orderComplete(firstOrder: bool):
 	else:
 		multiplier = 1
 		totalPoints += Config.SCORE_PER_ORDER
+
+func load_all_recipes(path: String) -> Array[Recipe]:
+	var dir = DirAccess.open(path)
+	var recipes: Array[Recipe] = []
+	if dir:
+		dir.list_dir_begin()
+		var file_name = dir.get_next()
+		while file_name != "":
+			if file_name.ends_with(".tres"):
+				var recipe = load(path + "/" + file_name)
+				if recipe is Recipe:
+					recipes.append(recipe)
+			file_name = dir.get_next()
+	return recipes

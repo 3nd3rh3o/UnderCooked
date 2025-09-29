@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Recipe" load_steps=5 format=3 uid="uid://byvwkmbon7p87"]
+
+[ext_resource type="Script" uid="uid://b2s0060leuoh8" path="res://scripts/recipe.gd" id="1_ohjge"]
+[ext_resource type="Resource" uid="uid://euux022su2a1" path="res://data/recipe/cut_tomato.tres" id="2_2m588"]
+[ext_resource type="Resource" uid="uid://b2qpixbyid8ar" path="res://data/stands/cutting_table.tres" id="3_2m588"]
+[ext_resource type="Resource" uid="uid://c4m3ygadqco5t" path="res://data/recipe/cut_salad.tres" id="3_lmikf"]
+
+[resource]
+script = ExtResource("1_ohjge")
+name = "tomato_salad"
+recipeNeeded = Array[ExtResource("1_ohjge")]([ExtResource("2_2m588"), ExtResource("3_lmikf")])
+standNeeded = ExtResource("3_2m588")
+metadata/_custom_type_script = "uid://b2s0060leuoh8"

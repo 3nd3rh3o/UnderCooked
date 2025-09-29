@@ -4,15 +4,15 @@ extends Control
 @onready var button = $Button
 @onready var orderTemplate = $Order
 
-
 func _ready() -> void:
+	var parent = get_parent()
+	parent.connect("addedOrder", addOrder)
 	orderTemplate.visible = false
-	addOrder("Cheeze")
 
-func addOrder(recipe):
+func addOrder(order):
 	var newOrder = orderTemplate.duplicate()
-	newOrder.recipe = recipe
+	newOrder.recipe = order
 	newOrder.visible = true
 	newOrder.priority = get_child_count()
 	add_child(newOrder)
-	print(newOrder.priority)
+	newOrder.set_up()
