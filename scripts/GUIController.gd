@@ -27,6 +27,11 @@ func removeOrder(o: Control):
 func _process(delta: float) -> void:
 	for child in orderContainer.get_children():
 		child.time = max(0, child.time - delta)
+		var ExpireBar = child.get_node("Panel").get_node("ExpireBar")
+		var style = StyleBoxFlat.new()
+		style.bg_color = Color(1 - (child.time/Config.ORDER_EXPIRE_TIME), child.time/Config.ORDER_EXPIRE_TIME, 0)
+		ExpireBar.size.x = child.get_node("Panel").size.x * (child.time/Config.ORDER_EXPIRE_TIME)
+		ExpireBar.add_theme_stylebox_override("panel", style)
 		if (child.time == 0):
 			removeOrder(child)
 			emit_signal("expired_order", child.recipe)
