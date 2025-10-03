@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Recipe" load_steps=5 format=3 uid="uid://c2pxvdb212qi6"]
+
+[ext_resource type="Script" uid="uid://b2s0060leuoh8" path="res://scripts/recipe.gd" id="1_w1fr6"]
+[ext_resource type="Resource" uid="uid://boaajeii7u36f" path="res://data/recipe/cooked_steak.tres" id="2_w1fr6"]
+[ext_resource type="Resource" uid="uid://doaryfew14cti" path="res://data/recipe/fries.tres" id="3_axc23"]
+[ext_resource type="Resource" uid="uid://b2qpixbyid8ar" path="res://data/stands/cutting_table.tres" id="4_fdsjo"]
+
+[resource]
+script = ExtResource("1_w1fr6")
+name = "steak_n_fries"
+recipeNeeded = Array[ExtResource("1_w1fr6")]([ExtResource("2_w1fr6"), ExtResource("3_axc23")])
+standNeeded = ExtResource("4_fdsjo")
+metadata/_custom_type_script = "uid://b2s0060leuoh8"

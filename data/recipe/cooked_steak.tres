@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Recipe" load_steps=4 format=3 uid="uid://boaajeii7u36f"]
+
+[ext_resource type="Script" uid="uid://b2s0060leuoh8" path="res://scripts/recipe.gd" id="1_42oxr"]
+[ext_resource type="Resource" uid="uid://nvus702he7rx" path="res://data/stands/cooking_table.tres" id="2_sc5f7"]
+[ext_resource type="Resource" uid="uid://ceocxqm1bo6p1" path="res://data/recipe/steak.tres" id="2_ymg5i"]
+
+[resource]
+script = ExtResource("1_42oxr")
+name = "cook_steak"
+recipeNeeded = Array[ExtResource("1_42oxr")]([ExtResource("2_ymg5i")])
+standNeeded = ExtResource("2_sc5f7")
+metadata/_custom_type_script = "uid://b2s0060leuoh8"
