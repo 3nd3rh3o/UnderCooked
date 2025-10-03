@@ -7,6 +7,7 @@ var recipes_aviable: Array[Recipe] = []
 var totalPoints = 0
 var multiplier = 1
 var time = Config.MAX_TIME
+@onready var GUIController = $Control
 
 signal addedOrder(order)
 
@@ -22,12 +23,19 @@ func add_random_order(amount: int):
 		active_orders.append(order.name)
 		emit_signal("addedOrder", order)
 
+func order_expired(order: Recipe):
+	totalPoints -= Config.SCORE_PENALTY_EXPIRE_ORDER
+	active_orders.erase(order.name)
+	emit_signal("removedOrder", order)
+	add_random_order(1)
+
 func _ready() -> void:
 	var bot = $agent
 	recipes_aviable = load_all_recipes("res://data/recipe")
 	bot.SPEED = Config.BOT_SPEED # Overrides the speed value set in player.gd
 	bot.CARRY_SPEED = Config.BOT_SPEED_ON_CARRY
 	add_random_order(Config.MAX_ORDER)
+	GUIController.connect("expired_order", order_expired)
 
 func orderComplete(firstOrder: bool):
 	# ATTENTION: When the order classes are created, we need to have the command completed as secondary parameter
