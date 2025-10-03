@@ -13,20 +13,21 @@ signal addedOrder(order)
 func get_composite_recipes() -> Array[Recipe]:
 	return recipes_aviable.filter(func(r): return not r.recipeNeeded.is_empty())
 
-func add_random_order():
-	var possible_orders = get_composite_recipes()
-	if possible_orders.is_empty():
-		return
-	var order = possible_orders.pick_random()
-	active_orders.append(order)
-	emit_signal("addedOrder", order)
+func add_random_order(amount: int):
+	for i in range(amount):
+		var possible_orders = get_composite_recipes()
+		if possible_orders.is_empty():
+			return
+		var order = possible_orders.pick_random()
+		active_orders.append(order.name)
+		emit_signal("addedOrder", order)
 
 func _ready() -> void:
 	var bot = $agent
 	recipes_aviable = load_all_recipes("res://data/recipe")
 	bot.SPEED = Config.BOT_SPEED # Overrides the speed value set in player.gd
 	bot.CARRY_SPEED = Config.BOT_SPEED_ON_CARRY
-	add_random_order()
+	add_random_order(Config.MAX_ORDER)
 
 func orderComplete(firstOrder: bool):
 	# ATTENTION: When the order classes are created, we need to have the command completed as secondary parameter

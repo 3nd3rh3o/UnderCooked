@@ -5,4 +5,5 @@
 
 [resource]
 script = ExtResource("2_2vx2v")
+aviable_recipes = Array[ExtResource("1_2vx2v")]([null, null])
 metadata/_custom_type_script = "uid://bxw0x3ys5w261"
