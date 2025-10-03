@@ -6,7 +6,7 @@
 
 [resource]
 script = ExtResource("1_lnlub")
-name = "tomato_salad"
+name = "soup"
 recipeNeeded = Array[ExtResource("1_lnlub")]([ExtResource("2_ip757"), ExtResource("2_ip757"), ExtResource("2_ip757")])
 standNeeded = ExtResource("3_3hysh")
 metadata/_custom_type_script = "uid://b2s0060leuoh8"
