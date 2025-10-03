@@ -4,7 +4,7 @@ extends Node
 var MAX_SCORE_MULTIPLIER = 6 # Hello everybody! My name is Markiplier
 var SCORE_MULTIPLIER_FACTOR = 1.5
 var SCORE_PER_ORDER = 100
-var SCORE_PENALTY_EXPIRE_ORDER = 400
+var SCORE_PENALTY_EXPIRE_ORDER = 200
 var MAX_TIME = 180 # 3 minutes
 var ORDER_INTERVAL = 5 # Seconds before spawning a new order
 var ORDER_EXPIRE_TIME = 10
