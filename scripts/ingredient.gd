@@ -4,7 +4,7 @@ class_name Ingredient
 
 var state:Enum.IngState = Enum.IngState.RAW
 var type:Enum.IngType = Enum.IngType.ONION
-var progress = {Enum.TaskType.CUT:2}
+var progress = {Enum.TaskType.CUT:0.5}
 
 func changeState(s:Enum.IngState):
 	remove_from_group(Enum.IngToString(state, type))

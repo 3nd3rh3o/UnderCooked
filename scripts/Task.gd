@@ -9,6 +9,7 @@ var occupied:bool
 var previousTasks:Array[Task]
 var nextTask:Task
 var hierarchy:Hierarchy
+var assignedAgent:Agent
 
 func _init(h:Hierarchy, t:Enum.TaskType, o:Node3D, a:Array[Task] = []):
 	hierarchy = h
@@ -21,19 +22,40 @@ func _init(h:Hierarchy, t:Enum.TaskType, o:Node3D, a:Array[Task] = []):
 	for task in a:
 		task.nextTask = self
 
-func start(d:Node3D):
+func start(d:Node3D, agent:Agent):
+	#if(type == Enum.TaskType.GENERATE_ONION):print(str(self) + " ok")
+	assignedAgent = agent
+	assignedAgent.remove_from_group("freeAgent")
+	assignedAgent.task = self
 	destination = d
 	occupied = true
-	if d.canBeOccupied:
-		d.occupied = true
+	if destination.canBeOccupied:
+		destination.occupied = true
+	if object:
+		object.occupied = true
+		print("task : "+ str(Enum.TaskType.keys()[type]) + " " + str(self) + " started by " + agent.name + " to " + destination.name + " with " + object.name)
+	else:
+		print("task : "+ str(Enum.TaskType.keys()[type])  + " " + str(self) +  " started by " + agent.name + " to " + destination.name)
+
+func abandon():
+	#if(type == Enum.TaskType.GENERATE_ONION):print(str(self) + " ok2")
+	print("task : "+ str(Enum.TaskType.keys()[type])  + " " + str(self) +  " abandonned by " + assignedAgent.name + " to " + destination.name)
+	occupied = false
+	destination.occupied = false
+	assignedAgent.task = null
+	assignedAgent.add_to_group("freeAgent")
+	assignedAgent = null
+	
 
 func previousTaskComplete(t:Task, n:Node3D):
 	object = n
 	previousTasks.erase(t)
 
-func complete(n:Node3D, agent:Agent):
-	agent.task = null
-	agent.order = Enum.Order.NONE
+func complete(n:Node3D):
+	print("task : "+ str(Enum.TaskType.keys()[type])  + " " + str(self) +  " completed by " + assignedAgent.name + " to " + destination.name)
+	assignedAgent.add_to_group("freeAgent")
+	assignedAgent.task = null 
+	assignedAgent.order = Enum.Order.NONE
 	if(nextTask):
 		if type == Enum.TaskType.POT:
 			nextTask.previousTaskComplete(self, destination)

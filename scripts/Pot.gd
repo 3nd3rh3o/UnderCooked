@@ -2,7 +2,7 @@ extends Movable
 class_name Pot
 @export var mesh:MeshInstance3D
 
-var progress = {Enum.TaskType.COOK:2}
+var progress = {Enum.TaskType.COOK:0.5}
 var IngredientList:Array[Enum.IngType]
 var state:Enum.IngState = Enum.IngState.RAW;
 	
@@ -39,7 +39,7 @@ func _enter_tree():
 func empty():
 	occupied = false
 	state = Enum.IngState.RAW
-	progress = {Enum.TaskType.COOK:2}
+	progress = {Enum.TaskType.COOK:0.5}
 	remove_from_group("PotFULL")
 	remove_from_group("PotCOOKED")
 	add_to_group("PotEMPTY")

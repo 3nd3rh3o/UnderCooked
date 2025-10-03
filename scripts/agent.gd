@@ -31,17 +31,17 @@ func executeTask():
 							if(objectInHand):
 								target.store(objectInHand) 
 							if target.use(delta):
-								task.complete(target.storedObject, self)
+								task.complete(target.storedObject)
 						Enum.Order.STORE:
 							target.store(objectInHand) 
-							task.complete(task.object, self)
+							task.complete(task.object)
 						Enum.Order.UNSTORE:
 							var obj = target.unstore()
 							pickUp(obj)
-							task.complete(obj, self)
+							task.complete(obj)
 						Enum.Order.PICKUP:
 							pickUp(task.object)
-							task.complete(objectInHand, self)
+							task.complete(objectInHand)
 			elif objectInHand and objectInHand != task.object:
 				hierarchy.dropToNearestCounter(self)
 			else:
@@ -86,7 +86,7 @@ func _ready():
 	hierarchy.AgentList.append(self)
 	
 func _enter_tree():
-	add_to_group("agent")
+	add_to_group("freeAgent")
 
 func _process(_delta):
 	executeTask()

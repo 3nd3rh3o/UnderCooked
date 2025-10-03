@@ -17,3 +17,6 @@ func unstore() -> Movable:
 	add_child(inst)
 	inst.set_global_position(position)
 	return inst
+
+func _process(_delta):
+	super._process(_delta)

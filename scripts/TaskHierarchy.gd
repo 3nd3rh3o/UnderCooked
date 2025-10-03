@@ -6,12 +6,14 @@ var TaskList:Array[Task]
 var availableAgent:int
 
 func findClosestAgent(n:Node3D) -> Agent:
-	if(n):
+	if(n and availableAgent > 0):
+		if(n is Movable and n.parent is Agent):
+			return n.parent
 		var bestDistance:float = INF
 		var bestAgent:Agent = null
-		for agent in get_tree().get_nodes_in_group("agent"):
+		for agent in get_tree().get_nodes_in_group("freeAgent"):
 			var distance:float = agent.storePoint.global_position.distance_to(n.global_position)
-			if(agent.order == Enum.Order.NONE and distance < bestDistance):
+			if(agent.task == null and distance < bestDistance):
 				bestDistance = distance
 				bestAgent = agent;
 		return bestAgent
@@ -38,18 +40,13 @@ func find_free_oject_on_table(movable:String, taskType:Enum.TaskType) -> Node3D:
 func dropToNearestCounter(agent:Agent):
 	var counter = find_free_interactible("IntSTORE")
 	if(agent.task):
-		agent.task.occupied = false
-	print(str(agent) + "  1")
+		agent.task.abandon()
 	setAgentTarget(agent, Task.new(self, Enum.TaskType.STORE, agent.objectInHand), counter, Enum.Order.STORE)
 
 func setAgentTarget(agent:Agent, task:Task, destination:Node3D, order:Enum.Order = Enum.Order.NONE):
 	if(agent and task and destination):
-		agent.task = task
-		if(task.object):
-			task.object.occupied = true
-		task.start(destination)
+		task.start(destination, agent)
 		agent.order = order
-		print(Enum.TaskType.keys()[task.type])
 
 
 
@@ -111,6 +108,7 @@ func empty(task:Task):
 
 
 func assignTasks(task:Task):
+	#print(str(task) + " " + str(task.previousTasks.size())+ " " + str(task.occupied) + " " +str(task.assignedAgent))
 	if(task.previousTasks.size() == 0 and not task.occupied):
 		match task.type:
 			Enum.TaskType.PICKUP:
@@ -125,11 +123,6 @@ func assignTasks(task:Task):
 				cook(task)
 			Enum.TaskType.SERVE:
 				empty(task)
-	else:
-		for task2 in task.previousTasks:
-			if(availableAgent <= 0):
-				return
-			assignTasks(task2)
 
 
 func _process(_delta):
@@ -138,7 +131,7 @@ func _process(_delta):
 	for a in AgentList:
 		if a.task :
 			availableAgent -= 1
-	print(TaskList.size())
+	#print("newFrame "+str(TaskList.size()))
 	for task in TaskList:
 		assignTasks(task)
 
