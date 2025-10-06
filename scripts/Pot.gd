@@ -31,6 +31,7 @@ func store(i:Ingredient):
 		if mat is StandardMaterial3D:
 			mat.albedo_color = Color.RED
 
+
 func _enter_tree():
 	super._enter_tree()
 	add_to_group("POT")
@@ -51,12 +52,12 @@ func empty():
 
 	if mat is StandardMaterial3D:
 		mat.albedo_color = Color.WHITE
-
+		
+	
 func cook():
 	state = Enum.IngState.COOKED
 	var mat := mesh.get_active_material(0)
 
-	remove_from_group("PotEMPTY")
 	add_to_group("PotCOOKED")
 	if mat and mat.resource_name == "":
 		mat = mat.duplicate()

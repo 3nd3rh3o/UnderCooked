@@ -4,6 +4,7 @@ class_name Movable
 var parent:Node3D
 var occupied:bool = false
 var canBeOccupied:bool = true
+var task:Task = null
 
 func pickUp(p:Node3D):
 	if(parent is Interactible):
@@ -11,6 +12,10 @@ func pickUp(p:Node3D):
 	if(parent is Agent):
 		parent.objectInHand = null
 	parent = p
+	
+func assignedToTask(_task:Task):
+	occupied = true
+	task = _task
 	
 func dropped():
 	parent = null

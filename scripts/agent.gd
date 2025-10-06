@@ -15,7 +15,6 @@ func pickUp(obj:Movable):
 	if(objectInHand):
 		objectInHand.dropped()
 	obj.pickUp(self)
-	obj.occupied = true
 	objectInHand = obj
 
 func executeTask():
@@ -50,7 +49,11 @@ func executeTask():
 					pickUp(task.object)
 	elif(objectInHand):
 		hierarchy.dropToNearestCounter(self)
-	
+
+func dropObject():
+	objectInHand.dropped()
+	objectInHand = null
+
 func bumpedInto(dir:Vector3):
 	addedVelocity = dir*bumpStrength
 
