@@ -1,11 +1,10 @@
 class_name Enum
 
-enum IngType {TOMATO}
 enum IngState { RAW, CUT , COOKED}
-enum Order { NONE, USE , STORE, UNSTORE, PICKUP}
-enum TaskType {NONE, CUT, COOK, STORE, GENERATE_TOMATO, PICKUP, POT, SERVE}
-enum RecipeNames {Empty, 
-Tom, CutTom, PotCutTom, PotCutTomCutTom, PotCutTomCutTomCutTom, TomatoSoup}
+enum Order { NONE, USE , STORE, UNSTORE, PICKUP, MIX}
+enum TaskType {NONE, CUT, COOK, STORE, PICKUP, POT, EMPTY, GENERATE, MIX,
+GENERATE_TOMATO, GENERATE_BURGER, GENERATE_STEAK, GENERATE_SALAD,}
 
-static func IngToString(ingState:IngState, ingType:IngType) -> String:
-	return IngState.keys()[ingState] + IngType.keys()[ingType]
+enum RecipeNames {Empty, 
+Tom, CutTom, PotCutTom, PotCutTomCutTom, PotCutTomCutTomCutTom, TomatoSoup,
+Ste, CutSte, CookCutSte, Sal, CutSal, Bur, BurSal, BurSte, Burger}

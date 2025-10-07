@@ -41,6 +41,13 @@ func executeTask():
 						Enum.Order.PICKUP:
 							pickUp(task.object)
 							task.complete(objectInHand)
+						Enum.Order.MIX:
+							if(task.object is Ingredient):
+								task.destination.mix(task.object)
+								task.complete(task.destination)
+							elif(task.object is MovableCooker):
+								task.destination.mixRecipe(task.object.empty())
+								task.complete(task.destination)
 			elif objectInHand and objectInHand != task.object:
 				hierarchy.dropToNearestCounter(self)
 			else:

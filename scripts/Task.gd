@@ -10,11 +10,12 @@ var previousTasks:Array[Task]
 var nextTask:Task
 var hierarchy:Hierarchy
 var assignedAgent:Agent
+var giveDestinationTo:Array
 
-func _init(h:Hierarchy, t:Enum.TaskType, o:Node3D, a:Array[Task] = []):
+func _init(h:Hierarchy, t:Enum.TaskType, object:Node3D, a:Array[Task] = []):
 	hierarchy = h
 	type = t
-	object = o
+	self.object = object
 	previousTasks = a
 	occupied = false
 	for task in a:
@@ -57,6 +58,10 @@ func complete(n:Node3D):
 	assignedAgent.add_to_group("freeAgent")
 	assignedAgent.task = null 
 	assignedAgent.order = Enum.Order.NONE
+	
+	for t in giveDestinationTo:
+		t.destination = n
+	
 	if(nextTask):
 		if type == Enum.TaskType.POT:
 			nextTask.previousTaskComplete(self, null)
@@ -72,7 +77,10 @@ func addPrevious(t:Task):
 	previousTasks.append(t)
 	t.nextTask = self
 
-func available()-> bool:
+func objectInHandsOf() -> Agent:
 	if(object and object.parent is Agent):
-		return false
+		return object.parent
+	return null
+
+func available()-> bool:
 	return not occupied

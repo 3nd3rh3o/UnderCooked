@@ -8,16 +8,16 @@ rough = true
 absorbent = true
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_noarx"]
+size = Vector3(1, 0.8086548, 1)
 
-[node name="Pot" type="RigidBody3D" node_paths=PackedStringArray("mesh")]
+[node name="Pot" type="RigidBody3D"]
 collision_layer = 4
 collision_mask = 7
 physics_material_override = SubResource("PhysicsMaterial_noarx")
 script = ExtResource("1_a4utd")
-mesh = NodePath("")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0018615723, 0.5474662, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0018615723, 0.40528482, 0)
 shape = SubResource("BoxShape3D_noarx")
 
 [node name="Cooking_pan" parent="." instance=ExtResource("2_gpnl5")]

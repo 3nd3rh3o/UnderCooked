@@ -26,7 +26,12 @@ func mix(ing:Ingredient):
 	if(newRecipe != Enum.RecipeNames.Empty):
 		ing.parent.objectInHand = null
 		ing.queue_free()
-		UpdateRecipe(Recipes.recipesCook(newRecipe))
+		UpdateRecipe(newRecipe)
+
+func  mixRecipe(ingRecipe:Enum.RecipeNames):
+	var newRecipe:Enum.RecipeNames = Recipes.recipesMix(recipe, ingRecipe)
+	if(newRecipe != Enum.RecipeNames.Empty):
+		UpdateRecipe(newRecipe)
 
 func _enter_tree():
 	super._enter_tree()
