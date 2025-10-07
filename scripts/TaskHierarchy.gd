@@ -79,11 +79,11 @@ func createSoup():
 			var layer1:Task = Task.new(self, Enum.TaskType.CUT, null)
 			TaskList.append(layer1)
 			layer2.addPrevious(layer1)
-			var ing = find_free_movable("RAWONION")
+			var ing = find_free_movable("Tom")
 			if(ing):
 				layer1.object = ing
 			else:
-				var layer0:Task = Task.new(self, Enum.TaskType.GENERATE_ONION, null)
+				var layer0:Task = Task.new(self, Enum.TaskType.GENERATE_TOMATO, null)
 				TaskList.append(layer0)
 				layer1.addPrevious(layer0)
 
@@ -130,8 +130,8 @@ func assignTasks(task:Task):
 		match task.type:
 			Enum.TaskType.PICKUP:
 				pickup(task)
-			Enum.TaskType.GENERATE_ONION:
-				generate(task, Enum.IngType.ONION)
+			Enum.TaskType.GENERATE_TOMATO:
+				generate(task, Enum.IngType.TOMATO)
 			Enum.TaskType.CUT:
 				cut(task)
 			Enum.TaskType.POT:

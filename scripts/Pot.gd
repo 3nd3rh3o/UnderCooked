@@ -2,12 +2,11 @@ extends Movable
 class_name Pot
 @export var mesh:MeshInstance3D
 
-var progress = {Enum.TaskType.COOK:0.5}
-var IngredientList:Array[Enum.IngType]
+var progress = {Enum.TaskType.COOK:1}
 var state:Enum.IngState = Enum.IngState.RAW;
 	
 func addProgress(s:Enum.TaskType, delta:float) -> bool:
-	if(IngredientList.size() >= 3):
+	if(recipe == Enum.RecipeNames.PotCutTomCutTomCutTom):
 		if(progress.has(s)):
 			progress[s] -= delta
 			if(progress[s] <= 0):
@@ -18,53 +17,33 @@ func addProgress(s:Enum.TaskType, delta:float) -> bool:
 
 func store(i:Ingredient):
 	i.parent.objectInHand = null
-	IngredientList.append(i.type)
+	if(recipe == Enum.RecipeNames.Empty):
+		recipe = Recipes.recipesPot(i.recipe)
+	else:
+		recipe = Recipes.recipesMix(recipe, i.recipe)
+		if(recipe == Enum.RecipeNames.PotCutTomCutTomCutTom):
+			remove_from_group("PotEMPTY")
 	i.queue_free()
-	if(IngredientList.size() == 3):
-		remove_from_group("PotEMPTY")
-		add_to_group("PotFULL")
-		var mat := mesh.get_active_material(0)
-		if mat and mat.resource_name == "":
-			mat = mat.duplicate()
-			mesh.set_surface_override_material(0, mat)
-
-		if mat is StandardMaterial3D:
-			mat.albedo_color = Color.RED
+	UpdateAppearance()
 
 
 func _enter_tree():
 	super._enter_tree()
-	add_to_group("POT")
 	add_to_group("PotEMPTY")
 
 func empty():
 	occupied = false
 	state = Enum.IngState.RAW
-	progress = {Enum.TaskType.COOK:0.5}
-	remove_from_group("PotFULL")
-	remove_from_group("PotCOOKED")
+	progress = {Enum.TaskType.COOK:1}
 	add_to_group("PotEMPTY")
-	IngredientList = []
-	var mat := mesh.get_active_material(0)
-	if mat and mat.resource_name == "":
-		mat = mat.duplicate()
-		mesh.set_surface_override_material(0, mat)
-
-	if mat is StandardMaterial3D:
-		mat.albedo_color = Color.WHITE
+	recipe = Enum.RecipeNames.Empty
+	UpdateAppearance()
 		
 	
 func cook():
 	state = Enum.IngState.COOKED
-	var mat := mesh.get_active_material(0)
-
-	add_to_group("PotCOOKED")
-	if mat and mat.resource_name == "":
-		mat = mat.duplicate()
-		mesh.set_surface_override_material(0, mat)
-
-	if mat is StandardMaterial3D:
-		mat.albedo_color = Color.BLACK
+	recipe = Recipes.recipesCook(recipe)
+	UpdateAppearance()
 
 func _process(_delta):
 	super._process(_delta)

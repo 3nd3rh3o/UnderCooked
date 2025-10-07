@@ -2,14 +2,15 @@ extends Movable
 class_name Ingredient
 @export var mesh:MeshInstance3D
 
-var state:Enum.IngState = Enum.IngState.RAW
-var type:Enum.IngType = Enum.IngType.ONION
-var progress = {Enum.TaskType.CUT:0.5}
+var progress = {Enum.TaskType.CUT:1}
 
-func changeState(s:Enum.IngState):
-	remove_from_group(Enum.IngToString(state, type))
-	state = s
-	add_to_group(Enum.IngToString(state, type))
+
+func UpdateRecipe(newRecipe:Enum.RecipeNames):
+	remove_from_group(Enum.RecipeNames.keys()[recipe])
+	recipe = newRecipe
+	add_to_group(Enum.RecipeNames.keys()[recipe])
+	UpdateAppearance()
+
 	
 func addProgress(s:Enum.TaskType, delta:float) -> bool:
 	if(progress.has(s)):
@@ -20,32 +21,23 @@ func addProgress(s:Enum.TaskType, delta:float) -> bool:
 			return true
 	return false
 
+func mix(ing:Ingredient):
+	var newRecipe:Enum.RecipeNames = Recipes.recipesMix(recipe, ing.recipe)
+	if(newRecipe != Enum.RecipeNames.Empty):
+		ing.parent.objectInHand = null
+		ing.queue_free()
+		UpdateRecipe(Recipes.recipesCook(newRecipe))
+
 func _enter_tree():
 	super._enter_tree()
-	add_to_group(Enum.IngToString(state, type))
+	add_to_group(Enum.RecipeNames.keys()[recipe])
+	UpdateAppearance()
 
 func cut():
-	pass
-	changeState(Enum.IngState.CUT)
-	var mat := mesh.get_active_material(0)
-
-	if mat and mat.resource_name == "":
-		mat = mat.duplicate()
-		mesh.set_surface_override_material(0, mat)
-
-	if mat is StandardMaterial3D:
-		mat.albedo_color = Color.RED
+	UpdateRecipe(Recipes.recipesCut(recipe))
 
 func cook():
-	changeState(Enum.IngState.COOKED)
-	var mat := mesh.get_active_material(0)
-
-	if mat and mat.resource_name == "":
-		mat = mat.duplicate()
-		mesh.set_surface_override_material(0, mat)
-
-	if mat is StandardMaterial3D:
-		mat.albedo_color = Color.BLACK
+	UpdateRecipe(Recipes.recipesCook(recipe))
 
 func _process(_delta):
 	super._process(_delta)

@@ -4,7 +4,7 @@ class_name IntGenerator
 const ingredient = preload("res://scenes/ingredient.tscn")
 
 func _init():
-	taskType = Enum.TaskType.GENERATE_ONION
+	taskType = Enum.TaskType.GENERATE_TOMATO
 	passive = true
 	canBeOccupied = false
 	
@@ -14,6 +14,7 @@ func store(_i:Movable) -> bool:
 	
 func unstore() -> Movable:
 	var inst = ingredient.instantiate()
+	inst.recipe = Enum.RecipeNames.Tom
 	add_child(inst)
 	inst.set_global_position(position)
 	return inst
