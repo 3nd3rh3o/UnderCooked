@@ -1,8 +1,0 @@
-[gd_resource type="Resource" script_class="Recipe" load_steps=2 format=3 uid="uid://ceocxqm1bo6p1"]
-
-[ext_resource type="Script" uid="uid://b2s0060leuoh8" path="res://scripts/recipe.gd" id="1_5vf3e"]
-
-[resource]
-script = ExtResource("1_5vf3e")
-name = "steak"
-metadata/_custom_type_script = "uid://b2s0060leuoh8"
