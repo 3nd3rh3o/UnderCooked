@@ -19,13 +19,23 @@ func findClosestAgent(n:Node3D) -> Agent:
 		return bestAgent
 	return null
 
-func find_free_movable(s:String) -> Node3D:
+func find_closest_interactible(n:Node3D, s:String) -> Interactible:
+	var bestDistance:float = INF
+	var bestObj:Interactible = null
+	for obj in get_tree().get_nodes_in_group(s):
+		var distance:float = obj.global_position.distance_to(n.global_position)
+		if(not obj.occupied and not obj.storedObject and distance < bestDistance):
+			bestDistance = distance
+			bestObj = obj;
+	return bestObj
+
+func find_free_movable(s:String) -> Movable:
 	for obj in get_tree().get_nodes_in_group(s):
 		if(not obj.occupied):
 			return obj
 	return null
 
-func find_free_interactible(s:String) -> Node3D:
+func find_free_interactible(s:String) -> Interactible:
 	for obj in get_tree().get_nodes_in_group(s):
 		if(not obj.occupied and not obj.storedObject):
 			return obj
@@ -38,7 +48,7 @@ func find_free_oject_on_table(movable:String, taskType:Enum.TaskType) -> Node3D:
 	return null
 
 func dropToNearestCounter(agent:Agent):
-	var counter = find_free_interactible("IntSTORE")
+	var counter = find_closest_interactible(agent, "IntSTORE")
 	if(counter):
 		if(agent.task):
 			agent.task.abandon()

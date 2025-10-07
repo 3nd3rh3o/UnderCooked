@@ -140,5 +140,11 @@ offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("3_a0tk4")
 
+[node name="HBoxContainer" type="HBoxContainer" parent="Control"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/separation = 5
+
 [node name="Order" parent="Control" instance=ExtResource("5_jka67")]
 layout_mode = 1

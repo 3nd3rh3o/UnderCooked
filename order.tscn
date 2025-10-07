@@ -11,11 +11,23 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_vwbfx")
 
-[node name="Label" type="Label" parent="."]
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="Panel"]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 0.034
 anchor_bottom = 0.039
-offset_right = -0.16800308
-offset_bottom = -0.27200127
+offset_right = 89.64
+offset_bottom = 21.44
 text = "Hello World"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ExpireBar" type="Panel" parent="Panel"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0

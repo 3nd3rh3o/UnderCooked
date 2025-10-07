@@ -1,13 +1,13 @@
-[gd_scene load_steps=21 format=3 uid="uid://crmjnlgorvsy"]
+[gd_scene load_steps=20 format=3 uid="uid://crmjnlgorvsy"]
 
 [ext_resource type="PackedScene" uid="uid://b67m5mnbrjcmo" path="res://scenes/agent.tscn" id="1_noarx"]
+[ext_resource type="PackedScene" uid="uid://bb80rjlejrxap" path="res://scenes/IntCUT.tscn" id="2_pm7iv"]
 [ext_resource type="Script" uid="uid://dg83vouhqgm2u" path="res://scripts/TaskHierarchy.gd" id="3_a0tk4"]
-[ext_resource type="Script" uid="uid://cc45pwt6qrmuw" path="res://scripts/IntStove.gd" id="3_i5arm"]
-[ext_resource type="Script" uid="uid://kdkf7dr12rdv" path="res://scripts/IntCutter.gd" id="3_r3fl7"]
-[ext_resource type="Script" uid="uid://cj6wye16kflcp" path="res://scripts/IntGenerator.gd" id="4_i5arm"]
-[ext_resource type="Script" uid="uid://cd7mawawvwplk" path="res://scripts/IntStore.gd" id="5_jsk3o"]
-[ext_resource type="Script" uid="uid://dwyxvdi05cpek" path="res://scripts/IntServe.gd" id="6_4arys"]
+[ext_resource type="PackedScene" uid="uid://cn2qe58h31hii" path="res://scenes/IntCOOK.tscn" id="3_v6ncs"]
+[ext_resource type="PackedScene" uid="uid://bl820p48kbd85" path="res://scenes/IntGENERATE.tscn" id="4_pm7iv"]
+[ext_resource type="PackedScene" uid="uid://df4nudau2nmxb" path="res://scenes/IntSTORE.tscn" id="5_v6ncs"]
 [ext_resource type="PackedScene" uid="uid://dr1ea0arqcnag" path="res://scenes/Pot.tscn" id="6_i5arm"]
+[ext_resource type="PackedScene" uid="uid://tb2i6yfxk7nb" path="res://scenes/IntSERVE.tscn" id="8_rimyp"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4xowi"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -45,8 +45,6 @@ size = Vector3(12.205, 1.455, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_a0tk4"]
 size = Vector3(12.212952, 1.2055664, 1)
-
-[sub_resource type="BoxMesh" id="BoxMesh_a0tk4"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_v6ncs"]
 size = Vector3(0.4, 0.4, 0.4)
@@ -158,86 +156,24 @@ shape = SubResource("BoxShape3D_a0tk4")
 [node name="Interactible" type="Node3D" parent="Environnement/NavigationRegion3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.745033, 0, 0)
 
-[node name="cuttingtable" type="MeshInstance3D" parent="Environnement/NavigationRegion3D/Interactible" node_paths=PackedStringArray("storePoint")]
+[node name="cuttingtable" parent="Environnement/NavigationRegion3D/Interactible" instance=ExtResource("2_pm7iv")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.866217, 0.4291575, 6.968914)
-mesh = SubResource("BoxMesh_a0tk4")
-script = ExtResource("3_r3fl7")
-storePoint = NodePath("Node3D")
 
-[node name="Node3D" type="Node3D" parent="Environnement/NavigationRegion3D/Interactible/cuttingtable"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7103729, 0)
-
-[node name="cuttingtable2" type="MeshInstance3D" parent="Environnement/NavigationRegion3D/Interactible" node_paths=PackedStringArray("storePoint")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.757797, 0.4291575, 6.7605224)
-mesh = SubResource("BoxMesh_a0tk4")
-script = ExtResource("3_r3fl7")
-storePoint = NodePath("Node3D")
-
-[node name="Node3D" type="Node3D" parent="Environnement/NavigationRegion3D/Interactible/cuttingtable2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7103729, 0)
-
-[node name="Stove" type="MeshInstance3D" parent="Environnement/NavigationRegion3D/Interactible" node_paths=PackedStringArray("storePoint")]
+[node name="Stove" parent="Environnement/NavigationRegion3D/Interactible" instance=ExtResource("3_v6ncs")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.856659, 0.4291575, -1.4214823)
-mesh = SubResource("BoxMesh_a0tk4")
-script = ExtResource("3_i5arm")
-storePoint = NodePath("StoveStore")
 
-[node name="StoveStore" type="Node3D" parent="Environnement/NavigationRegion3D/Interactible/Stove"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7103729, 0)
-
-[node name="Stove2" type="MeshInstance3D" parent="Environnement/NavigationRegion3D/Interactible" node_paths=PackedStringArray("storePoint")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.769964, 0.4291575, -2.628266)
-mesh = SubResource("BoxMesh_a0tk4")
-script = ExtResource("3_i5arm")
-storePoint = NodePath("StoveStore")
-
-[node name="StoveStore" type="Node3D" parent="Environnement/NavigationRegion3D/Interactible/Stove2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7103729, 0)
-
-[node name="generator" type="MeshInstance3D" parent="Environnement/NavigationRegion3D/Interactible" node_paths=PackedStringArray("storePoint")]
+[node name="generator" parent="Environnement/NavigationRegion3D/Interactible" instance=ExtResource("4_pm7iv")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.4916916, 0.4291575, 3.8078103)
-mesh = SubResource("BoxMesh_a0tk4")
-script = ExtResource("4_i5arm")
-storePoint = NodePath("Node3D")
 
-[node name="Node3D" type="Node3D" parent="Environnement/NavigationRegion3D/Interactible/generator"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7103729, 0)
-
-[node name="counter" type="MeshInstance3D" parent="Environnement/NavigationRegion3D/Interactible" node_paths=PackedStringArray("storePoint")]
+[node name="counter" parent="Environnement/NavigationRegion3D/Interactible" instance=ExtResource("5_v6ncs")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.929298, 0.4291575, 2.920403)
-mesh = SubResource("BoxMesh_a0tk4")
-script = ExtResource("5_jsk3o")
-storePoint = NodePath("Node3D")
 
-[node name="Node3D" type="Node3D" parent="Environnement/NavigationRegion3D/Interactible/counter"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7103729, 0)
+[node name="cuttingtable2" parent="Environnement/NavigationRegion3D/Interactible" instance=ExtResource("2_pm7iv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.914839, 0.48323488, 6.646484)
+skeleton = NodePath("../../../..")
 
-[node name="counter2" type="MeshInstance3D" parent="Environnement/NavigationRegion3D/Interactible" node_paths=PackedStringArray("storePoint")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.002415, 0.4291575, 4.0202084)
-mesh = SubResource("BoxMesh_a0tk4")
-script = ExtResource("5_jsk3o")
-storePoint = NodePath("Node3D")
-
-[node name="Node3D" type="Node3D" parent="Environnement/NavigationRegion3D/Interactible/counter2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7103729, 0)
-
-[node name="counter3" type="MeshInstance3D" parent="Environnement/NavigationRegion3D/Interactible" node_paths=PackedStringArray("storePoint")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.642668, 0.4291575, -4.7142415)
-mesh = SubResource("BoxMesh_a0tk4")
-script = ExtResource("5_jsk3o")
-storePoint = NodePath("Node3D")
-
-[node name="Node3D" type="Node3D" parent="Environnement/NavigationRegion3D/Interactible/counter3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7103729, 0)
-
-[node name="ServePoint" type="MeshInstance3D" parent="Environnement/NavigationRegion3D/Interactible" node_paths=PackedStringArray("storePoint")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.4509273, 0.4291575, -5.1548767)
-mesh = SubResource("BoxMesh_a0tk4")
-script = ExtResource("6_4arys")
-storePoint = NodePath("Node3D")
-
-[node name="Node3D" type="Node3D" parent="Environnement/NavigationRegion3D/Interactible/ServePoint"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7103729, 0)
+[node name="cuttingtable3" parent="Environnement/NavigationRegion3D/Interactible" instance=ExtResource("2_pm7iv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.840744, 0.48323488, -2.5532527)
 
 [node name="Hierarchy" type="Node3D" parent="."]
 script = ExtResource("3_a0tk4")
@@ -251,3 +187,6 @@ mesh = SubResource("BoxMesh_v6ncs")
 
 [node name="Pot" parent="." instance=ExtResource("6_i5arm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.186784, 0.48323584, -0.8475003)
+
+[node name="ServePoint" parent="." instance=ExtResource("8_rimyp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.8280697, 0.48323393, -5.072794)
