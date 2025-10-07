@@ -1,8 +1,0 @@
-[gd_resource type="Resource" script_class="Stand" load_steps=3 format=3 uid="uid://nvus702he7rx"]
-
-[ext_resource type="Script" uid="uid://b2s0060leuoh8" path="res://scripts/recipe.gd" id="1_82lg5"]
-[ext_resource type="Script" uid="uid://bxw0x3ys5w261" path="res://scripts/stand.gd" id="2_oak1h"]
-
-[resource]
-script = ExtResource("2_oak1h")
-metadata/_custom_type_script = "uid://bxw0x3ys5w261"

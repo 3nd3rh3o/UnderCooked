@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="movable_stand" load_steps=4 format=3 uid="uid://drtowgct5cl6t"]
-
-[ext_resource type="Script" uid="uid://b2s0060leuoh8" path="res://scripts/recipe.gd" id="1_0dner"]
-[ext_resource type="Resource" uid="uid://boaajeii7u36f" path="res://data/recipe/cooked_steak.tres" id="2_snw8j"]
-[ext_resource type="Script" uid="uid://67horo3f8del" path="res://scripts/movable_stand.gd" id="4_shpw1"]
-
-[resource]
-script = ExtResource("4_shpw1")
-available_recipes = Array[ExtResource("1_0dner")]([ExtResource("2_snw8j")])

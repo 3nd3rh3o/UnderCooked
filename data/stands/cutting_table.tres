@@ -1,9 +1,9 @@
-[gd_resource type="Resource" script_class="Stand" load_steps=3 format=3 uid="uid://b2qpixbyid8ar"]
+[gd_resource type="Resource" script_class="Stand" load_steps=2 format=3 uid="uid://d30u041wgsljg"]
 
-[ext_resource type="Script" uid="uid://b2s0060leuoh8" path="res://scripts/recipe.gd" id="1_2vx2v"]
-[ext_resource type="Script" uid="uid://bxw0x3ys5w261" path="res://scripts/stand.gd" id="2_2vx2v"]
+[ext_resource type="Script" uid="uid://bxw0x3ys5w261" path="res://scripts/stand.gd" id="1_un4pi"]
 
 [resource]
-script = ExtResource("2_2vx2v")
-aviable_recipes = Array[ExtResource("1_2vx2v")]([null, null])
+script = ExtResource("1_un4pi")
+require_player = true
+processing_time = 5.0
 metadata/_custom_type_script = "uid://bxw0x3ys5w261"
