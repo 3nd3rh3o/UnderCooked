@@ -7,6 +7,7 @@ var recipes_aviable: Array[Recipe] = []
 var totalPoints = 0
 var multiplier = 1
 var time = Config.MAX_TIME
+var order_interval_time = 0
 @onready var GUIController = $Control
 
 signal addedOrder(order)
@@ -31,13 +32,11 @@ func order_expired(recipe: Recipe):
 	active_orders.erase(recipe.name)
 	multiplier = 1
 	print("Order expired! total points: ", str(totalPoints), ", multiplier: ", str(multiplier))
-	add_random_order(1)
 
 func _ready() -> void:
 	var bot = $agent
 	recipes_aviable = load_all_recipes("res://data/recipes/")
 	bot.SPEED = Config.BOT_SPEED # Overrides the speed value set in player.gd
-	add_random_order(Config.MAX_ORDER)
 	GUIController.connect("expired_order", order_expired)
 
 func orderComplete(firstOrder: bool, O: Control):
@@ -47,7 +46,6 @@ func orderComplete(firstOrder: bool, O: Control):
 			multiplier = multiplier + Config.SCORE_MULTIPLIER_FACTOR - 1
 	active_orders.erase(O.recipe.name)
 	emit_signal("removedOrder", O)
-	add_random_order(1)
 
 func load_all_recipes(path: String) -> Array[Recipe]:
 	var dir = DirAccess.open(path)
@@ -62,3 +60,10 @@ func load_all_recipes(path: String) -> Array[Recipe]:
 					recipes.append(recipe)
 			file_name = dir.get_next()
 	return recipes
+
+func _process(delta: float) -> void:
+	if (len(active_orders) < Config.MAX_ORDER):
+		order_interval_time = min(Config.ORDER_INTERVAL, order_interval_time + delta)
+		if (order_interval_time == Config.ORDER_INTERVAL):
+			order_interval_time = 0
+			add_random_order(1)
