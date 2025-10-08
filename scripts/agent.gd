@@ -2,7 +2,7 @@ extends CharacterBody3D
 class_name Agent
 @export var nav_agent: NavigationAgent3D
 @export var storePoint: Node3D  
-const SPEED = 6
+@export var SPEED = 6
 var objectInHand:Movable
 var order: Enum.Order
 var hierarchy:Hierarchy

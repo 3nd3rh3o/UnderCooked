@@ -7,7 +7,7 @@ var SCORE_PER_ORDER = 100
 var SCORE_PENALTY_EXPIRE_ORDER = 200
 var MAX_TIME = 180 # 3 minutes
 var ORDER_INTERVAL = 5 # Seconds before spawning a new order
-var ORDER_EXPIRE_TIME = 10
+var ORDER_EXPIRE_TIME = 20
 var MAX_ORDER = 3 # Maximum orders shown at the same time
 
 # STANDS MECHANICS

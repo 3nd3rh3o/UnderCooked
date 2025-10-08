@@ -8,12 +8,11 @@ absorbent = true
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_noarx"]
 
-[node name="Ingredient" type="RigidBody3D" node_paths=PackedStringArray("mesh")]
+[node name="Ingredient" type="RigidBody3D"]
 collision_layer = 4
 collision_mask = 7
 physics_material_override = SubResource("PhysicsMaterial_noarx")
 script = ExtResource("1_11e83")
-mesh = NodePath("")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)

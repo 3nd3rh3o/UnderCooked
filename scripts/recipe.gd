@@ -7,3 +7,4 @@ class_name Recipe
 @export var name: Item
 @export var recipeNeeded: Array[Item]
 @export var standNeeded: Stand
+@export var available_for_order: bool

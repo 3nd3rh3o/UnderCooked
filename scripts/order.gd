@@ -8,7 +8,7 @@ extends Control
 @onready var ExpireBar = $Panel/ExpireBar
 
 func set_up():
-	label.text = recipe.name
+	label.text = recipe.name.name
 	label.size = Vector2(150, 30)
 	size = Vector2(150, 30)
 	panel.size = Vector2(150, 30)

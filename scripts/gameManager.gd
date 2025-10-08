@@ -13,7 +13,9 @@ signal addedOrder(order)
 signal removedOrder(order)
 
 func get_composite_recipes() -> Array[Recipe]:
-	return recipes_aviable.filter(func(r): return not r.recipeNeeded.is_empty())
+	return recipes_aviable.filter(func(r):
+			return r.available_for_order;
+	)
 
 func add_random_order(amount: int):
 	for i in range(amount):
@@ -33,9 +35,8 @@ func order_expired(recipe: Recipe):
 
 func _ready() -> void:
 	var bot = $agent
-	recipes_aviable = load_all_recipes("res://data/recipe")
+	recipes_aviable = load_all_recipes("res://data/recipes/")
 	bot.SPEED = Config.BOT_SPEED # Overrides the speed value set in player.gd
-	bot.CARRY_SPEED = Config.BOT_SPEED_ON_CARRY
 	add_random_order(Config.MAX_ORDER)
 	GUIController.connect("expired_order", order_expired)
 
@@ -61,13 +62,3 @@ func load_all_recipes(path: String) -> Array[Recipe]:
 					recipes.append(recipe)
 			file_name = dir.get_next()
 	return recipes
-	
-var random_interval_to_test_caus_y_not = 4
-
-func _process(delta: float) -> void:
-	random_interval_to_test_caus_y_not = max(0, random_interval_to_test_caus_y_not - delta)
-	if random_interval_to_test_caus_y_not == 0:
-		random_interval_to_test_caus_y_not = 4
-		var Order = GUIController.get_node("HBoxContainer").get_child(0)
-		orderComplete(true, Order)
-		print("Order completed (imagine it did, trust), total points: ", str(totalPoints), ", multiplier: ", str(multiplier))
