@@ -98,5 +98,5 @@ func _ready():
 func _enter_tree():
 	add_to_group("freeAgent")
 
-func _process(_delta):
-	executeTask()
+#func _process(_delta):
+#	executeTask()

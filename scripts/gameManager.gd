@@ -8,6 +8,7 @@ var totalPoints = 0
 var multiplier = 1
 var time = Config.MAX_TIME
 var order_interval_time = 0
+var agents: Array
 @onready var GUIController = $Control
 
 signal addedOrder(order)
@@ -38,6 +39,7 @@ func _ready() -> void:
 	recipes_aviable = load_all_recipes("res://data/recipes/")
 	bot.SPEED = Config.BOT_SPEED # Overrides the speed value set in player.gd
 	GUIController.connect("expired_order", order_expired)
+	agents = getAgents()
 
 func orderComplete(firstOrder: bool, O: Control):
 	# ATTENTION: When the order classes are created, we need to have the command completed as secondary parameter
@@ -61,9 +63,21 @@ func load_all_recipes(path: String) -> Array[Recipe]:
 			file_name = dir.get_next()
 	return recipes
 
+func getAgents():
+	var agents: Array = []
+	for child in get_children():
+		if child.get_scene_file_path() == "res://scenes/agent.tscn":
+			agents.append(child)
+	return agents
+
 func _process(delta: float) -> void:
+	# orders
 	if (len(active_orders) < Config.MAX_ORDER):
 		order_interval_time = min(Config.ORDER_INTERVAL, order_interval_time + delta)
 		if (order_interval_time == Config.ORDER_INTERVAL):
 			order_interval_time = 0
 			add_random_order(1)
+			
+	# agents
+	for agent in agents:
+		agent.executeTask()
