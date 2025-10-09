@@ -25,12 +25,12 @@ func add_random_order(amount: int):
 		if possible_orders.is_empty():
 			return
 		var order = possible_orders.pick_random()
-		active_orders.append(order.name)
+		active_orders.append(order.item.name)
 		emit_signal("addedOrder", order)
 
 func order_expired(recipe: Recipe):
 	totalPoints -= Config.SCORE_PENALTY_EXPIRE_ORDER
-	active_orders.erase(recipe.name)
+	active_orders.erase(recipe.item.name)
 	multiplier = 1
 	print("Order expired! total points: ", str(totalPoints), ", multiplier: ", str(multiplier))
 
@@ -64,7 +64,7 @@ func load_all_recipes(path: String) -> Array[Recipe]:
 	return recipes
 
 func getAgents():
-	var agents: Array = []
+	agents = []
 	for child in get_children():
 		if child.get_scene_file_path() == "res://scenes/agent.tscn":
 			agents.append(child)

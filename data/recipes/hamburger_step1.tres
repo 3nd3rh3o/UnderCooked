@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Recipe" load_steps=6 format=3 uid="uid://dqopej8melnvy"]
+
+[ext_resource type="Resource" uid="uid://cpjh86lji2p6c" path="res://data/items/hamburger_step1.tres" id="1_et5lc"]
+[ext_resource type="Script" uid="uid://d4bn1n2be8b0u" path="res://scripts/item.gd" id="2_f7ulh"]
+[ext_resource type="Resource" uid="uid://cq2v8nkcj8wtr" path="res://data/items/cooked_buns.tres" id="3_idsmm"]
+[ext_resource type="Resource" uid="uid://cdru5telloslc" path="res://data/items/cut_salad.tres" id="4_0tww6"]
+[ext_resource type="Script" uid="uid://b2s0060leuoh8" path="res://scripts/recipe.gd" id="5_33rin"]
+
+[resource]
+script = ExtResource("5_33rin")
+item = ExtResource("1_et5lc")
+recipeNeeded = Array[ExtResource("2_f7ulh")]([ExtResource("3_idsmm"), ExtResource("4_0tww6")])
+metadata/_custom_type_script = "uid://b2s0060leuoh8"

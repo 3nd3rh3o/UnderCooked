@@ -8,7 +8,7 @@
 
 [resource]
 script = ExtResource("2_aa2p4")
-name = ExtResource("1_lhshq")
+item = ExtResource("1_lhshq")
 recipeNeeded = Array[ExtResource("1_fo4t1")]([ExtResource("3_mae3y")])
 standNeeded = ExtResource("5_0bmrx")
 metadata/_custom_type_script = "uid://b2s0060leuoh8"

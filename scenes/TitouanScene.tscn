@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://crmjnlgorvsy"]
+[gd_scene load_steps=25 format=3 uid="uid://crmjnlgorvsy"]
 
 [ext_resource type="Script" uid="uid://dur60hwhqrq1l" path="res://scripts/gameManager.gd" id="1_1hx7k"]
 [ext_resource type="PackedScene" uid="uid://b67m5mnbrjcmo" path="res://scenes/agent.tscn" id="1_noarx"]
@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://c4i5gr3lt5fbq" path="res://scenes/IntGENERATEbread.tscn" id="11_tp51g"]
 [ext_resource type="Script" uid="uid://b2o1lof1pnjrj" path="res://scripts/GUIController.gd" id="14_xlpor"]
 [ext_resource type="PackedScene" uid="uid://dlkmx4eeiu86o" path="res://order.tscn" id="15_ow0or"]
+[ext_resource type="Script" uid="uid://bsuj8iummfp8l" path="res://scenes/fpsViewer.gd" id="16_xlpor"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4xowi"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -215,3 +216,15 @@ theme_override_constants/separation = 5
 
 [node name="Order" parent="Control" instance=ExtResource("15_ow0or")]
 layout_mode = 1
+
+[node name="Label" type="Label" parent="Control"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 0
+offset_left = 1050.0
+offset_top = 625.0
+offset_right = 1150.0
+offset_bottom = 648.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+horizontal_alignment = 2
+vertical_alignment = 2
+script = ExtResource("16_xlpor")
