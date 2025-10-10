@@ -5,4 +5,5 @@
 [resource]
 script = ExtResource("1_jj870")
 name = "Salad"
+model = "res://assets/blender/Salad.blend"
 metadata/_custom_type_script = "uid://d4bn1n2be8b0u"

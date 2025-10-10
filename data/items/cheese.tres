@@ -5,4 +5,5 @@
 [resource]
 script = ExtResource("1_db6y0")
 name = "Cheese"
+model = "res://assets/blender/BurgerCheese.blend"
 metadata/_custom_type_script = "uid://d4bn1n2be8b0u"

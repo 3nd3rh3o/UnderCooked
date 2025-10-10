@@ -5,4 +5,5 @@
 [resource]
 script = ExtResource("1_pachj")
 name = "Cut Tomato"
+model = "res://assets/blender/cut_tomato.blend"
 metadata/_custom_type_script = "uid://d4bn1n2be8b0u"

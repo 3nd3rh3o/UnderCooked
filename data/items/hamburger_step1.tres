@@ -5,4 +5,5 @@
 [resource]
 script = ExtResource("1_o4sn8")
 name = "Hamburger Step 1"
+model = "res://assets/blender/HamburgerStep1blend.blend"
 metadata/_custom_type_script = "uid://d4bn1n2be8b0u"

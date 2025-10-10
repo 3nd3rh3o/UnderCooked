@@ -5,4 +5,5 @@
 [resource]
 script = ExtResource("1_letqb")
 name = "Cut Salad"
+model = "res://assets/blender/CutSalad.blend"
 metadata/_custom_type_script = "uid://d4bn1n2be8b0u"

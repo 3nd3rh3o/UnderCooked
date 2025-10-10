@@ -5,4 +5,5 @@
 [resource]
 script = ExtResource("1_y8148")
 name = "Cut Potato"
+model = "res://assets/blender/RawFrittes.blend"
 metadata/_custom_type_script = "uid://d4bn1n2be8b0u"

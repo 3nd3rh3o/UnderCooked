@@ -5,4 +5,5 @@
 [resource]
 script = ExtResource("1_ba2k7")
 name = "Cooked Buns"
+model = "res://assets/blender/CookedBuns.blend"
 metadata/_custom_type_script = "uid://d4bn1n2be8b0u"

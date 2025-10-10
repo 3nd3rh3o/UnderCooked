@@ -5,4 +5,5 @@
 [resource]
 script = ExtResource("1_sfyub")
 name = "Steak and Tomato Salad"
+model = "res://assets/blender/tomato_salad_and_steack.blend"
 metadata/_custom_type_script = "uid://d4bn1n2be8b0u"

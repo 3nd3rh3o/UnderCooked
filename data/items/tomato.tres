@@ -5,4 +5,5 @@
 [resource]
 script = ExtResource("1_bprmv")
 name = "Tomato"
+model = "res://assets/blender/Tomato.blend"
 metadata/_custom_type_script = "uid://d4bn1n2be8b0u"
