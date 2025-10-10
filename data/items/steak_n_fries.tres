@@ -6,4 +6,5 @@
 script = ExtResource("1_hcqfo")
 name = "Steak and Fries"
 model = "res://assets/blender/fries_and_steack.blend"
+render = "res://assets/dishes_render/FRITTTTES_STEAQU.png"
 metadata/_custom_type_script = "uid://d4bn1n2be8b0u"

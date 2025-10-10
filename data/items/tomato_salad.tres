@@ -6,4 +6,5 @@
 script = ExtResource("1_igocj")
 name = "Tomato Salad"
 model = "res://assets/blender/tomato_salad.blend"
+render = "res://assets/dishes_render/SSALE_LADE_taumatoé.png"
 metadata/_custom_type_script = "uid://d4bn1n2be8b0u"
