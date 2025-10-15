@@ -34,10 +34,16 @@ func find_closest_interactible(n:Node3D, s:String) -> Interactible:
 	return bestObj
 
 func find_free_movable(s:String) -> Movable:
+	var backup = null
 	for obj in get_tree().get_nodes_in_group(s):
-		if(not obj.occupied):
+		if(obj is MovableCooker):
+			if(obj.parent is IntStove):
+				return obj
+			else:
+				backup = obj
+		elif(not obj.occupied):
 			return obj
-	return null
+	return backup
 
 func find_free_interactible(s:String) -> Interactible:
 	for obj in get_tree().get_nodes_in_group(s):
@@ -99,6 +105,8 @@ func createSoup():
 				var tomGen:Task = Task.new(self, Enum.TaskType.GENERATE_TOMATO, null)
 				TaskList.append(tomGen)
 				tomCut.addPrevious(tomGen)
+		return true
+	return false
 
 func createBurger():
 	var emptyPan = find_free_movable("PanEMPTY")
@@ -139,6 +147,8 @@ func createBurger():
 		var salGen = Task.new(self, Enum.TaskType.GENERATE_SALAD, null)
 		TaskList.append(salGen)
 		salCut.addPrevious(salGen)
+		return true
+	return false
 
 func pickup(task:Task):
 	var agent = findAgentClosestToTask(task)
@@ -222,8 +232,6 @@ func assignTasks(task:Task):
 
 
 func _process(_delta):
-	createSoup()
-	createBurger()
 	availableAgent = AgentList.size()
 	for a in AgentList:
 		if a.task :

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Item" load_steps=2 format=3 uid="uid://cr1k8uoj507rs"]
+
+[ext_resource type="Script" uid="uid://d4bn1n2be8b0u" path="res://scripts/item.gd" id="1_qi3ko"]
+
+[resource]
+script = ExtResource("1_qi3ko")
+name = "Tomato Soup"
+model = "res://assets/blender/TomSoup.blend"
+render = "res://assets/dishes_render/TomatoSoup.png"
+metadata/_custom_type_script = "uid://d4bn1n2be8b0u"

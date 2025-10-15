@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Recipe" load_steps=7 format=3 uid="uid://ec2k25wnsbpi"]
+
+[ext_resource type="Resource" uid="uid://cr1k8uoj507rs" path="res://data/items/tomato_soup.tres" id="1_1fnvt"]
+[ext_resource type="Script" uid="uid://d4bn1n2be8b0u" path="res://scripts/item.gd" id="2_coepw"]
+[ext_resource type="Resource" uid="uid://q3bbg50frj51" path="res://data/items/cut_tomato.tres" id="3_daq86"]
+[ext_resource type="Resource" uid="uid://cdru5telloslc" path="res://data/items/cut_salad.tres" id="4_e363v"]
+[ext_resource type="Script" uid="uid://b2s0060leuoh8" path="res://scripts/recipe.gd" id="5_3jj5g"]
+
+[sub_resource type="Resource" id="Resource_atgg4"]
+metadata/__load_path__ = "res://data/stands/assemble_table.tres"
+
+[resource]
+script = ExtResource("5_3jj5g")
+item = ExtResource("1_1fnvt")
+recipeNeeded = Array[ExtResource("2_coepw")]([ExtResource("3_daq86"), ExtResource("4_e363v")])
+standNeeded = SubResource("Resource_atgg4")
+available_for_order = true
+metadata/_custom_type_script = "uid://b2s0060leuoh8"
