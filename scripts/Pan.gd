@@ -18,14 +18,17 @@ func canEmpty()->bool:
 
 func store(i:Ingredient):
 	i.parent.objectInHand = null
-	if(recipe == Enum.RecipeNames.Empty):
+	if(recipe == emptyName):
 		recipe = i.recipe
 		remove_from_group(groupName)
 		i.queue_free()
 		UpdateAppearance()
 
+func mix(i:Ingredient): 
+	store(i)
 
 func _enter_tree():
 	groupName = "PanEMPTY"
+	emptyName = Enum.RecipeNames.EmptyPan
 	progressMaxValues = {Enum.TaskType.COOK:1}
 	super._enter_tree()

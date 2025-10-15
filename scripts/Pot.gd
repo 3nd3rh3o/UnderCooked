@@ -18,7 +18,7 @@ func canEmpty()->bool:
 
 func store(i:Ingredient):
 	i.parent.objectInHand = null
-	if(recipe == Enum.RecipeNames.Empty):
+	if(recipe == emptyName):
 		recipe = Recipes.recipesPot(i.recipe)
 	else:
 		recipe = Recipes.recipesMix(recipe, i.recipe)
@@ -27,8 +27,11 @@ func store(i:Ingredient):
 	i.queue_free()
 	UpdateAppearance()
 
+func mix(i:Ingredient): 
+	store(i)
 
 func _enter_tree():
 	groupName = "PotEMPTY"
+	emptyName = Enum.RecipeNames.EmptyPot
 	progressMaxValues = {Enum.TaskType.COOK:1}
 	super._enter_tree()

@@ -37,6 +37,5 @@ func _process(_delta):
 		global_position = Vector3(parent.storePoint.global_position)
 		global_rotation = Vector3(parent.storePoint.global_rotation)
 
-
 func _enter_tree():
 	add_to_group("movable")

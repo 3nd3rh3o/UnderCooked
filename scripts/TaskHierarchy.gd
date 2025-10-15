@@ -2,8 +2,11 @@ extends Node3D
 class_name Hierarchy
 
 var AgentList:Array[Agent]
+var MovableList:Array[Movable]
+var RecipeNeededList:Array[Enum.RecipeNames]
 var TaskList:Array[Task]
 var availableAgent:int
+var recipeToPrepare:Array[Enum.RecipeNames] = [Enum.RecipeNames.TomatoSoup]
 
 func findAgentClosestToTask(task:Task) -> Agent:
 	var obj = task.object
@@ -16,7 +19,7 @@ func findAgentClosestToTask(task:Task) -> Agent:
 func findAgentClosestToObj(obj:Node3D) -> Agent:
 	var bestDistance:float = INF
 	var bestAgent:Agent = null
-	for agent in get_tree().get_nodes_in_group("freeAgent"):
+	for agent in AgentList:
 		var distance:float = agent.storePoint.global_position.distance_to(obj.global_position)
 		if(agent.task == null and distance < bestDistance):
 			bestDistance = distance
@@ -28,7 +31,9 @@ func find_closest_interactible(n:Node3D, s:String) -> Interactible:
 	var bestObj:Interactible = null
 	for obj in get_tree().get_nodes_in_group(s):
 		var distance:float = obj.global_position.distance_to(n.global_position)
-		if(not obj.occupied and not obj.storedObject and distance < bestDistance):
+		if(obj.storedObject == n):
+			return obj
+		elif(not obj.occupied and not obj.storedObject and distance < bestDistance):
 			bestDistance = distance
 			bestObj = obj;
 	return bestObj
@@ -73,6 +78,8 @@ func setAgentTarget(agent:Agent, task:Task, destination:Node3D, order:Enum.Order
 	if(agent and task and destination):
 		task.start(destination, agent)
 		agent.order = order
+		return true
+	return false
 
 
 
@@ -85,31 +92,30 @@ func createSoup():
 		soupServe.addPrevious(soupCook)
 		TaskList.append(soupCook)
 		for i in range(3):
-			var tomPot:Task = Task.new(self, Enum.TaskType.POT, null)
-			tomPot.destination = emptyPot
+			var tomPot:Task = Task.new(self, Enum.TaskType.MIX, null, emptyPot)
 			TaskList.append(tomPot)
 			soupCook.addPrevious(tomPot)
-			var tomCut:Task = Task.new(self, Enum.TaskType.CUT, null)
+			var tomCut:Task = Task.new(self, Enum.TaskType.CUT)
 			TaskList.append(tomCut)
 			tomPot.addPrevious(tomCut)
 			var ing = find_free_movable("Tom")
 			if(ing):
 				tomCut.object = ing
 			else:
-				var tomGen:Task = Task.new(self, Enum.TaskType.GENERATE_TOMATO, null)
+				var tomGen:Task = Task.new(self, Enum.TaskType.GENERATE_TOMATO)
 				TaskList.append(tomGen)
 				tomCut.addPrevious(tomGen)
 
 func createBurger():
 	var emptyPan = find_free_movable("PanEMPTY")
 	if(emptyPan):
-		var burgServe:Task = Task.new(self, Enum.TaskType.EMPTY, null)
+		var burgServe:Task = Task.new(self, Enum.TaskType.EMPTY)
 		TaskList.append(burgServe)
 		
-		var salMix:Task = Task.new(self, Enum.TaskType.MIX, null)
+		var salMix:Task = Task.new(self, Enum.TaskType.MIX)
 		TaskList.append(salMix)
 		burgServe.addPrevious(salMix)
-		var steEmpty:Task = Task.new(self, Enum.TaskType.EMPTY, null)
+		var steEmpty:Task = Task.new(self, Enum.TaskType.EMPTY)
 		TaskList.append(steEmpty)
 		burgServe.addPrevious(steEmpty)
 		
@@ -117,26 +123,25 @@ func createBurger():
 		TaskList.append(steCook)
 		steEmpty.addPrevious(steCook)
 		
-		var stePan:Task = Task.new(self, Enum.TaskType.POT, null)
+		var stePan:Task = Task.new(self, Enum.TaskType.MIX, null, emptyPan)
 		TaskList.append(stePan)
-		stePan.destination = emptyPan
 		steCook.addPrevious(stePan)
 		
-		var salCut:Task = Task.new(self, Enum.TaskType.CUT, null)
+		var salCut:Task = Task.new(self, Enum.TaskType.CUT)
 		TaskList.append(salCut)
 		salMix.addPrevious(salCut)
-		var steCut:Task = Task.new(self, Enum.TaskType.CUT, null)
+		var steCut:Task = Task.new(self, Enum.TaskType.CUT)
 		TaskList.append(steCut)
 		stePan.addPrevious(steCut)
 		
-		var burGen:Task = Task.new(self, Enum.TaskType.GENERATE_BURGER, null)
+		var burGen:Task = Task.new(self, Enum.TaskType.GENERATE_BURGER)
 		TaskList.append(burGen)
 		burGen.giveDestinationTo = [salMix, steEmpty]
 		
-		var steGen = Task.new(self, Enum.TaskType.GENERATE_STEAK, null)
+		var steGen = Task.new(self, Enum.TaskType.GENERATE_STEAK)
 		TaskList.append(steGen)
 		steCut.addPrevious(steGen)
-		var salGen = Task.new(self, Enum.TaskType.GENERATE_SALAD, null)
+		var salGen = Task.new(self, Enum.TaskType.GENERATE_SALAD)
 		TaskList.append(salGen)
 		salCut.addPrevious(salGen)
 
@@ -147,7 +152,9 @@ func pickup(task:Task):
 	
 func generate(task:Task, ingName:Enum.RecipeNames):
 	var generator = find_free_interactible("Generator"+Enum.RecipeNames.keys()[ingName])
-	var agent = findAgentClosestToObj(generator)
+	var agent
+	if(generator):
+		agent = findAgentClosestToObj(generator)
 	if(agent):
 		setAgentTarget(agent, task, generator, Enum.Order.UNSTORE)
 
@@ -156,11 +163,7 @@ func cut(task:Task):
 	var agent = findAgentClosestToTask(task)
 	if(agent and cutter):
 		setAgentTarget(agent, task, cutter, Enum.Order.USE)
-	
-func pot(task:Task):
-	var agent = findAgentClosestToTask(task)
-	if(agent):
-		setAgentTarget(agent, task, task.destination, Enum.Order.STORE)	
+
 		
 func mix(task:Task):
 	var agent = findAgentClosestToTask(task)
@@ -211,8 +214,6 @@ func assignTasks(task:Task):
 				generate(task, Enum.RecipeNames.Sal)
 			Enum.TaskType.CUT:
 				cut(task)
-			Enum.TaskType.POT:
-				pot(task)
 			Enum.TaskType.COOK:
 				cook(task)
 			Enum.TaskType.MIX:
@@ -220,16 +221,110 @@ func assignTasks(task:Task):
 			Enum.TaskType.EMPTY:
 				empty(task)
 
+func createTask(taskType:Enum.TaskType, needed:Array) -> bool:
+	match taskType:
+		Enum.TaskType.PICKUP:
+			var obj = needed[0]
+			var agent = findAgentClosestToObj(obj)
+			var task = Task.new(self, taskType, obj)
+			return setAgentTarget(agent, task, obj, Enum.Order.PICKUP)
+		Enum.TaskType.GENERATE_TOMATO:
+			var dest = find_free_interactible("GeneratorTom")
+			var agent = findAgentClosestToObj(dest)
+			var task = Task.new(self, taskType, null, dest)
+			return setAgentTarget(agent, task, dest, Enum.Order.UNSTORE)
+		Enum.TaskType.CUT:
+			var obj = needed[0]
+			var dest = find_closest_interactible(obj, "IntCUT")
+			var agent = findAgentClosestToObj(obj)
+			var task = Task.new(self, taskType, obj, dest)
+			return setAgentTarget(agent, task, dest, Enum.Order.USE)
+		Enum.TaskType.COOK:
+			var obj = needed[0]
+			if not (obj.parent and obj.parent is IntStove):
+				var dest = find_closest_interactible(obj, "IntCOOK")
+				var agent = findAgentClosestToObj(obj)
+				var task = Task.new(self, taskType, obj, dest)
+				return setAgentTarget(agent, task, dest, Enum.Order.USE)
+		Enum.TaskType.MIX:
+			var obj = needed[0]
+			var dest = needed[1]
+			if(needed[0] is MovableCooker):
+				obj = needed[1]
+				dest = needed[0]
+			var agent = findAgentClosestToObj(obj)
+			var task = Task.new(self, taskType, obj, dest)
+			return setAgentTarget(agent, task, dest, Enum.Order.MIX)
+		Enum.TaskType.EMPTY:
+			var dest = find_free_interactible("IntEMPTY")
+			var obj = needed[0]
+			var agent = findAgentClosestToObj(obj)
+			var task = Task.new(self, taskType, obj, dest)
+			return setAgentTarget(agent, task, dest, Enum.Order.STORE)
+	return false
+
+
+func TestRecipeDoable(recipe:Enum.RecipeNames):
+	var neededIngredient = Recipes.getNeeded(recipe).duplicate()
+	var ingleft = neededIngredient.size()
+	var neededMovable:Array[Movable] = [null, null]
+	for m in MovableList:
+		if(m.recipe == recipe):
+			MovableList.erase(m) #I can erase since I return
+			return m
+		
+		
+		
+		if(neededIngredient.size() > 0  and m.recipe == neededIngredient[0]):
+			neededIngredient[0] = null
+			neededMovable[0] = m
+			ingleft -= 1
+		elif(neededIngredient.size() > 1 and m.recipe == neededIngredient[1]):
+			neededIngredient[1] = null
+			neededMovable[1] = m
+			ingleft -= 1
+		
+		if(ingleft == 0):
+			for m2 in neededMovable:
+				MovableList.erase(m2) #I can erase since I return
+			if(createTask(Recipes.getOrder(recipe), neededMovable)):
+				return neededMovable[neededIngredient.size()-1]
+	
+	var futureIngredients = []
+	for i in neededIngredient:
+		if i:
+			#print("needed : " + Enum.RecipeNames.keys()[i])
+			var ing = TestRecipeDoable(i)
+			if ing:
+				futureIngredients.append(ing)
+	return null
+
+func initiateProcess():
+	print("\nnewframe")
+	MovableList = []
+	RecipeNeededList = []
+	for movable in get_tree().get_nodes_in_group("movable"):
+		if(movable.recipe != Enum.RecipeNames.Empty):
+			MovableList.append(movable)
+	for a in AgentList:
+		a.task = null
+	for i in get_tree().get_nodes_in_group("interactible"):
+		if not i.storedObject:
+			i.occupied = false
 
 func _process(_delta):
-	createSoup()
-	createBurger()
-	availableAgent = AgentList.size()
+	initiateProcess()
+	for r in recipeToPrepare:
+		var res = TestRecipeDoable(r)
+		if res and res.recipe == r:
+			createTask(Enum.TaskType.EMPTY, [res])
+
+
 	for a in AgentList:
-		if a.task :
-			availableAgent -= 1
-	for task in TaskList:
-		assignTasks(task)
+		if a.task == null and a.objectInHand:
+			dropToNearestCounter(a)
+		elif a.task and a.objectInHand and a.objectInHand != a.task.object:
+			dropToNearestCounter(a)
 
 
 func _enter_tree():

@@ -73,7 +73,7 @@ func _physics_process(delta):
 	
 	var direction:Vector3 = Vector3.ZERO
 	var target_angle:float = rotation.y
-	if not nav_agent.is_navigation_finished() and task.destination:
+	if task and not nav_agent.is_navigation_finished() and task.destination:
 		var next_path_position = nav_agent.get_next_path_position()
 		direction = (next_path_position - global_position).normalized()
 		target_angle = atan2(direction.x, direction.z)

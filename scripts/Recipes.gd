@@ -18,6 +18,27 @@ const meshes:Dictionary = {
 	Enum.RecipeNames.Burger: preload("res://assets/blender/BurgSalSte.blend")
 }
 
+const recipes:Dictionary = {
+	Enum.RecipeNames.Tom: [Enum.TaskType.GENERATE_TOMATO, []],
+	Enum.RecipeNames.CutTom: [Enum.TaskType.CUT, [Enum.RecipeNames.Tom]],
+	Enum.RecipeNames.PotCutTom: [Enum.TaskType.MIX, [Enum.RecipeNames.CutTom, Enum.RecipeNames.EmptyPot]],
+	Enum.RecipeNames.PotCutTomCutTom: [Enum.TaskType.MIX, [Enum.RecipeNames.CutTom, Enum.RecipeNames.PotCutTom]],
+	Enum.RecipeNames.PotCutTomCutTomCutTom: [Enum.TaskType.MIX, [Enum.RecipeNames.CutTom, Enum.RecipeNames.PotCutTomCutTom]],
+	Enum.RecipeNames.TomatoSoup: [Enum.TaskType.COOK, [Enum.RecipeNames.PotCutTomCutTomCutTom]],
+}
+
+static func getNeeded(recipe:Enum.RecipeNames) -> Array:
+	if(recipe in recipes.keys()):
+		return recipes[recipe][1]
+	else:
+		return []
+
+static func getOrder(recipe:Enum.RecipeNames) -> Enum.TaskType:
+	if(recipe in recipes.keys()):
+		return recipes[recipe][0]
+	else:
+		return Enum.TaskType.NONE
+
 static func recipeToMesh(recipe:Enum.RecipeNames) -> PackedScene:
 	if(meshes.has(recipe)): return meshes[recipe]
 	return null
@@ -46,6 +67,10 @@ static func recipesMix(recipe:Enum.RecipeNames, ingredient:Enum.RecipeNames, fir
 			match ingredient:
 				Enum.RecipeNames.CutTom:
 					return Enum.RecipeNames.PotCutTomCutTomCutTom
+		Enum.RecipeNames.EmptyPot:
+			match ingredient:
+				Enum.RecipeNames.CutTom:
+					return Enum.RecipeNames.PotCutTom
 		Enum.RecipeNames.Empty:
 			return ingredient
 	if(first):
