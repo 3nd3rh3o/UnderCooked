@@ -30,7 +30,6 @@ func add_random_order(amount: int):
 		if(order.item.name == "Tomato Soup"):
 			if(hierarchy.createSoup()):
 				active_orders.append(order)
-				print("addedOrder")
 				emit_signal("addedOrder", order)
 				return true
 		if(order.item.name == "Hamburger"):

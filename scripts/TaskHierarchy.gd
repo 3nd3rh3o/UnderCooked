@@ -1,28 +1,12 @@
 extends Node3D
 class_name Hierarchy
 
-var AgentList:Array[Agent]
 var TaskList:Array[Task]
 var availableAgent:int
+@export var agent:Agent
 
-func findAgentClosestToTask(task:Task) -> Agent:
-	var obj = task.object
-	if(obj and availableAgent > 0):
-		if(obj is Movable and obj.parent is Agent and obj.parent.task == null):
-			return obj.parent
-		return findAgentClosestToObj(task.object)
-	return null
-	
-func findAgentClosestToObj(obj:Node3D) -> Agent:
-	var bestDistance:float = INF
-	var bestAgent:Agent = null
-	for agent in get_tree().get_nodes_in_group("freeAgent"):
-		var distance:float = agent.storePoint.global_position.distance_to(obj.global_position)
-		if(agent.task == null and distance < bestDistance):
-			bestDistance = distance
-			bestAgent = agent;
-	return bestAgent
-	
+
+
 func find_closest_interactible(n:Node3D, s:String) -> Interactible:
 	var bestDistance:float = INF
 	var bestObj:Interactible = null
@@ -57,25 +41,25 @@ func find_free_oject_on_table(movable:String, taskType:Enum.TaskType) -> Node3D:
 			return obj
 	return null
 
-func dropToNearestCounter(agent:Agent):
+func dropToNearestCounter():
 	if(agent.objectInHand is MovableCooker): #permet de reposer les pan ou pot sur les stove
 		var nearestCooker = find_closest_interactible(agent, "IntCOOK")
 		if(nearestCooker):
 			if(agent.task):
 				agent.task.abandon()
-			setAgentTarget(agent, Task.new(self, Enum.TaskType.STORE, agent.objectInHand), nearestCooker, Enum.Order.STORE)
+			setAgentTarget(Task.new(self, Enum.TaskType.STORE, agent.objectInHand), nearestCooker, Enum.Order.STORE)
 			return
 	
 	var nearestCounter = find_closest_interactible(agent, "IntSTORE")
 	if(nearestCounter):
 		if(agent.task):
 			agent.task.abandon()
-		setAgentTarget(agent, Task.new(self, Enum.TaskType.STORE, agent.objectInHand), nearestCounter, Enum.Order.STORE)
+		setAgentTarget(Task.new(self, Enum.TaskType.STORE, agent.objectInHand), nearestCounter, Enum.Order.STORE)
 	else:
 		agent.dropObject()
 
 
-func setAgentTarget(agent:Agent, task:Task, destination:Node3D, order:Enum.Order = Enum.Order.NONE):
+func setAgentTarget(task:Task, destination:Node3D, order:Enum.Order = Enum.Order.NONE):
 	if(agent and task and destination):
 		task.start(destination, agent)
 		agent.order = order
@@ -151,31 +135,26 @@ func createBurger():
 	return false
 
 func pickup(task:Task):
-	var agent = findAgentClosestToTask(task)
-	if(agent):
-		setAgentTarget(agent, task, task.object, Enum.Order.PICKUP)
+	if(agent.task == null):
+		setAgentTarget(task, task.object, Enum.Order.PICKUP)
 	
 func generate(task:Task, ingName:Enum.RecipeNames):
 	var generator = find_free_interactible("Generator"+Enum.RecipeNames.keys()[ingName])
-	var agent = findAgentClosestToObj(generator)
-	if(agent):
-		setAgentTarget(agent, task, generator, Enum.Order.UNSTORE)
+	if(agent.task == null):
+		setAgentTarget(task, generator, Enum.Order.UNSTORE)
 
 func cut(task:Task):
 	var cutter = find_free_interactible("IntCUT")
-	var agent = findAgentClosestToTask(task)
-	if(agent and cutter):
-		setAgentTarget(agent, task, cutter, Enum.Order.USE)
+	if(agent.task == null and cutter):
+		setAgentTarget(task, cutter, Enum.Order.USE)
 	
 func pot(task:Task):
-	var agent = findAgentClosestToTask(task)
-	if(agent):
-		setAgentTarget(agent, task, task.destination, Enum.Order.STORE)	
+	if(agent.task == null):
+		setAgentTarget(task, task.destination, Enum.Order.STORE)	
 		
 func mix(task:Task):
-	var agent = findAgentClosestToTask(task)
-	if(agent):
-		setAgentTarget(agent, task, task.destination, Enum.Order.MIX)
+	if(agent.task == null):
+		setAgentTarget(task, task.destination, Enum.Order.MIX)
 
 func cook(task:Task):
 	var stove
@@ -183,26 +162,22 @@ func cook(task:Task):
 		stove = task.object.parent
 	else:
 		stove = find_free_interactible("IntCOOK")
-	var agent = findAgentClosestToTask(task)
-	if(agent and stove):
-		setAgentTarget(agent, task, stove, Enum.Order.STORE)
+	if(agent.task == null and stove):
+		setAgentTarget(task, stove, Enum.Order.STORE)
 
 func empty(task:Task):
 	if(task.object is Ingredient):
 		var servePoint = find_free_interactible("IntEMPTY")
-		var agent = findAgentClosestToTask(task)
-		if(agent and servePoint):
-			setAgentTarget(agent, task, servePoint, Enum.Order.STORE)
+		if(agent.task == null and servePoint):
+			setAgentTarget(task, servePoint, Enum.Order.STORE)
 	elif(task.object and task.object.canEmpty()):
 		if(task.destination == null or task.destination is IntServe):
 			var servePoint = find_free_interactible("IntEMPTY")
-			var agent = findAgentClosestToTask(task)
-			if(agent and servePoint):
-				setAgentTarget(agent, task, servePoint, Enum.Order.STORE)
+			if(agent.task == null and servePoint):
+				setAgentTarget(task, servePoint, Enum.Order.STORE)
 		else:
-			var agent = findAgentClosestToTask(task)
-			if(agent):
-				setAgentTarget(agent, task, task.destination, Enum.Order.MIX)
+			if(agent.task == null):
+				setAgentTarget(task, task.destination, Enum.Order.MIX)
 
 
 func assignTasks(task:Task):
@@ -232,10 +207,6 @@ func assignTasks(task:Task):
 
 
 func _process(_delta):
-	availableAgent = AgentList.size()
-	for a in AgentList:
-		if a.task :
-			availableAgent -= 1
 	for task in TaskList:
 		assignTasks(task)
 

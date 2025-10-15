@@ -49,13 +49,13 @@ func executeTask():
 								task.destination.mixRecipe(task.object.empty())
 								task.complete(task.destination)
 			elif objectInHand and objectInHand != task.object:
-				hierarchy.dropToNearestCounter(self)
+				hierarchy.dropToNearestCounter()
 			else:
 				nav_agent.set_target_position(task.object.global_position)
 				if(nav_agent.is_navigation_finished()):
 					pickUp(task.object)
 	elif(objectInHand):
-		hierarchy.dropToNearestCounter(self)
+		hierarchy.dropToNearestCounter()
 
 func dropObject():
 	objectInHand.dropped()
@@ -93,7 +93,6 @@ func _physics_process(delta):
 
 func _ready():
 	hierarchy = get_tree().get_nodes_in_group("Hierarchy")[0]
-	hierarchy.AgentList.append(self)
 	
 func _enter_tree():
 	add_to_group("freeAgent")

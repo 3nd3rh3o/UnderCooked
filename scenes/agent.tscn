@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://b67m5mnbrjcmo"]
+[gd_scene load_steps=6 format=3 uid="uid://b67m5mnbrjcmo"]
 
 [ext_resource type="Script" uid="uid://dtnxd4krtryr3" path="res://scripts/agent.gd" id="1_b2pv0"]
+[ext_resource type="Script" uid="uid://dg83vouhqgm2u" path="res://scripts/TaskHierarchy.gd" id="2_umeaf"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_a202f"]
 radius = 0.4
@@ -38,10 +39,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.0173227, 0)
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="feet"]
 path_desired_distance = 1.3
-target_desired_distance = 2.0
+target_desired_distance = 2.5
 
 [node name="Area3D" type="Area3D" parent="."]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 transform = Transform3D(1.05, 0, 0, 0, 1.05, 0, 0, 0, 1.05, 0, -0.012048334, 0)
 shape = SubResource("CapsuleShape3D_noarx")
+
+[node name="AgentManager" type="Node3D" parent="." node_paths=PackedStringArray("agent")]
+script = ExtResource("2_umeaf")
+agent = NodePath("..")
