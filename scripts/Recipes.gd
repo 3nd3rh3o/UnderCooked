@@ -18,7 +18,7 @@ const meshes:Dictionary = {
 	Enum.RecipeNames.Burger: preload("res://assets/blender/BurgSalSte.blend")
 }
 
-const recipes:Dictionary = {
+const recipes:Dictionary[Enum.RecipeNames, Array] = { #array where 0 is the tasktype and 1 is an array of recipes
 	Enum.RecipeNames.Tom: [Enum.TaskType.GENERATE_TOMATO, []],
 	Enum.RecipeNames.CutTom: [Enum.TaskType.CUT, [Enum.RecipeNames.Tom]],
 	Enum.RecipeNames.PotCutTom: [Enum.TaskType.MIX, [Enum.RecipeNames.CutTom, Enum.RecipeNames.EmptyPot]],
@@ -27,13 +27,13 @@ const recipes:Dictionary = {
 	Enum.RecipeNames.TomatoSoup: [Enum.TaskType.COOK, [Enum.RecipeNames.PotCutTomCutTomCutTom]],
 }
 
-static func getNeeded(recipe:Enum.RecipeNames) -> Array:
+static func getNeeded(recipe:Enum.RecipeNames) -> Array: #array of recipes
 	if(recipe in recipes.keys()):
 		return recipes[recipe][1]
 	else:
 		return []
 
-static func getOrder(recipe:Enum.RecipeNames) -> Enum.TaskType:
+static func getTaskType(recipe:Enum.RecipeNames) -> Enum.TaskType:
 	if(recipe in recipes.keys()):
 		return recipes[recipe][0]
 	else:

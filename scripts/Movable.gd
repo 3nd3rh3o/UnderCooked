@@ -14,9 +14,7 @@ func UpdateAppearance():
 	if(newMesh):
 		visibleMesh = newMesh.instantiate()
 		add_child(visibleMesh)
-		self.add_child(visibleMesh)
 		visibleMesh.set_position(Vector3.ZERO)
-		visibleMesh.set_rotation(Vector3.ZERO)
 		
 func pickUp(p:Node3D):
 	if(parent is Interactible):
