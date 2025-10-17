@@ -20,7 +20,7 @@ func addOrder(order):
 	orderContainer.add_child(newOrder)
 	newOrder.set_custom_minimum_size(Vector2(100, 100))
 	newOrder.set_up()
-	
+
 func removeOrder(o: Control):
 	o.queue_free()
 
