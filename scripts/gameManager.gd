@@ -21,29 +21,28 @@ func get_composite_recipes() -> Array[Recipe]:
 			return r.available_for_order;
 	)
 
-func add_random_order(amount: int):
-	for i in range(amount):
-		var possible_orders = get_composite_recipes()
-		if possible_orders.is_empty():
-			return
-		var order = possible_orders.pick_random()
-		if(order.item.name == "Tomato Soup"):
-			if(hierarchy.createSoup()):
-				active_orders.append(order)
-				print("addedOrder")
-				emit_signal("addedOrder", order)
-				return true
-		if(order.item.name == "Hamburger"):
-			if(hierarchy.createBurger()):
-				active_orders.append(order)
-				emit_signal("addedOrder", order)
-				return true
+func add_random_order():
+	var possible_orders = get_composite_recipes()
+	if possible_orders.is_empty():
+		return false
+	var order = possible_orders.pick_random()
+	if(order.item.name == "Tomato Soup"):
+		if(hierarchy.createSoup()):
+			active_orders.append(order)
+			print("addedOrder")
+			emit_signal("addedOrder", order)
+			return true
+	if(order.item.name == "Hamburger"):
+		if(hierarchy.createBurger()):
+			active_orders.append(order)
+			emit_signal("addedOrder", order)
+			return true
 	return false
 	
 
 func order_expired(recipe: Recipe):
 	totalPoints -= Config.SCORE_PENALTY_EXPIRE_ORDER
-	active_orders.erase(recipe.item.name)
+	active_orders.erase(recipe)
 	multiplier = 1
 	print("Order expired! total points: ", str(totalPoints), ", multiplier: ", str(multiplier))
 
@@ -59,6 +58,7 @@ func _ready() -> void:
 	agents = getAgents()
 
 func tryOrderComplete(s:String):
+	print(s)
 	for o in active_orders:
 		if o.item.name == s:
 			orderComplete(true, o)
@@ -69,7 +69,9 @@ func orderComplete(firstOrder: bool, O: Recipe):
 	totalPoints += Config.SCORE_PER_ORDER * multiplier
 	if firstOrder and multiplier != Config.MAX_SCORE_MULTIPLIER:
 			multiplier = multiplier + Config.SCORE_MULTIPLIER_FACTOR - 1
+	print("orderCompleted: ", O.item.name, " score: ", totalPoints)
 	active_orders.erase(O)
+	print(len(active_orders))
 	emit_signal("removedOrder", O)
 
 func load_all_recipes(path: String) -> Array[Recipe]:
@@ -98,7 +100,7 @@ func _process(delta: float) -> void:
 	if (len(active_orders) < Config.MAX_ORDER):
 		order_interval_time = min(Config.ORDER_INTERVAL, order_interval_time + delta)
 		if (order_interval_time == Config.ORDER_INTERVAL):
-			if(add_random_order(1)):
+			if(add_random_order()):
 				order_interval_time = 0
 			
 	# agents

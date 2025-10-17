@@ -25,7 +25,7 @@ func addOrder(order):
 	newOrder.set_up()
 	
 	
-func removeOrder(o):
+func removeOrder(o: Recipe):
 	for order in orderContainer.get_children():
 		if o.item and order.recipe and order.recipe.item == o.item:
 			order.queue_free()
@@ -40,5 +40,5 @@ func _process(delta: float) -> void:
 		ExpireBar.size.x = child.get_node("Main").size.x * (child.time/Config.ORDER_EXPIRE_TIME)
 		ExpireBar.add_theme_stylebox_override("panel", style)
 		if (child.time == 0):
-			removeOrder(child)
+			removeOrder(child.recipe)
 			emit_signal("expired_order", child.recipe)
