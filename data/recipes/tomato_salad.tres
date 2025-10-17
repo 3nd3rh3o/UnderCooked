@@ -14,5 +14,4 @@ script = ExtResource("2_x33pg")
 item = ExtResource("1_7upy8")
 recipeNeeded = Array[ExtResource("1_jtcgk")]([ExtResource("3_bf4bd"), ExtResource("4_n1fmd")])
 standNeeded = SubResource("Resource_atgg4")
-available_for_order = true
 metadata/_custom_type_script = "uid://b2s0060leuoh8"

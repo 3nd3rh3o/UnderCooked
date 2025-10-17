@@ -7,10 +7,13 @@ extends Control
 signal expired_order(order: Recipe)
 
 func _ready() -> void:
-	var parent = get_parent()
+	var parent:GameManager = get_parent()
 	parent.connect("addedOrder", addOrder)
+	
 	parent.connect("removedOrder", removeOrder)
+	
 	orderTemplate.visible = false
+
 
 func addOrder(order):
 	var newOrder = orderTemplate.duplicate()
@@ -20,9 +23,13 @@ func addOrder(order):
 	orderContainer.add_child(newOrder)
 	newOrder.set_custom_minimum_size(Vector2(100, 100))
 	newOrder.set_up()
-
-func removeOrder(o: Control):
-	o.queue_free()
+	
+	
+func removeOrder(o):
+	for order in orderContainer.get_children():
+		if o.item and order.recipe and order.recipe.item == o.item:
+			order.queue_free()
+			return
 
 func _process(delta: float) -> void:
 	for child in orderContainer.get_children():
